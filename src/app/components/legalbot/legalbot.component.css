@@ -33,7 +33,6 @@
 }
 
 .actions {
-  margin-top: 1rem;
   display: flex;
   justify-content: flex-end;
 }
@@ -128,16 +127,79 @@
     margin: 0;
   }
   .content-wrapper {
-  max-width: 400px;
   margin: 20px auto;
   padding: 15px;
   border: 1px solid #eee;
   border-radius: 8px;
   background-color: #fff;
 }
+.loading-message {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.response-icon{
+  object-fit: cover;
+    border-radius: 50%;
+    padding: 0px;
+    border: 1px solid #1e88e5;
+}
 
 /* ngx-skeleton-loader applies its own styles, but you can override them */
 ngx-skeleton-loader {
   display: block; /* Ensures each line takes its own space */
   margin-bottom: 8px; /* Adds spacing between the lines */
+}
+.container {
+  display: flex;
+  gap: 24px;
+  padding: 16px;
+  flex-wrap: wrap;
+}
+
+.history-panel {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  background: #f9f9f9;
+  padding:0px 16px 16px 10px;
+  border-radius: 12px;
+  height: fit-content;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.chat-section {
+  flex: 3;
+  min-width: 300px;
+}
+
+.chat-card,
+.tips-card {
+  margin-top: 16px;
+}
+.history-btn{
+  padding: 4px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.history-btn:hover{
+  background-color:white;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.question-text {
+  flex: 1 1 auto;
+}
+
+.time-stamp {
+  font-size: 8px;
+  color: gray;
+  white-space: nowrap;
 }

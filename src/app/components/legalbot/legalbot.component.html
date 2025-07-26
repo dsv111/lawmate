@@ -1,50 +1,77 @@
-<div class="legalbot-page">
-  <h1 class="page-title">🤖 LegalBot <span style="font-size: 18px;">– Your Virtual Legal Assistant</span></h1>
-  <p class="page-description">
-    Ask questions, get legal guidance, and explore legal resources. LegalBot is here to help you understand your rights
-    and obligations.
-  </p>
-
-  <mat-card class="chat-card">
-    <mat-card-title>Start Chatting</mat-card-title>
-    <mat-card-content>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Type your legal question</mat-label>
-        <textarea matInput placeholder="E.g. What is FIR process in India?" [(ngModel)]="userQuestion"
-          (keydown)="handleKeyDown($event)" (input)="autoResize($event)" #textArea rows="1"></textarea>
-      </mat-form-field>
-
-
-      <div class="actions">
-        <button mat-raised-button color="primary" (click)="askLegalBot()">Ask LegalBot</button>
+<div class="container">
+  <!-- Left: History Panel -->
+  <aside class="history-panel">
+    <h4>🕘 History</h4>
+    <!-- <ul>
+      <li *ngFor="let item of chatHistory">
+        <mat-card (click)="historyPushToChat(item)" class="history-btn">
+          {{ item.question }} <span class="time-stamp">{{ item.timestamp | date:'short' }}</span>
+        </mat-card>
+      </li>
+    </ul> -->
+    <ul>
+  <li *ngFor="let item of chatHistory">
+    <mat-card (click)="historyPushToChat(item)" class="history-btn">
+      <div class="card-content">
+        <div class="question-text">{{ item.question }}</div>
+        <div class="time-stamp">{{ item.timestamp | date:'short' }}</div>
       </div>
+    </mat-card>
+  </li>
+</ul>
 
-      <!-- Loader -->
-      <div *ngIf="isLoading" class="content-wrapper">
-        <ngx-skeleton-loader count="3" appearance="line"></ngx-skeleton-loader>
-        <p>LegalBot is thinking...</p>
-      </div>
+  </aside>
 
-      <!-- Bot Response -->
-      <div class="response" *ngIf="botResponse && !isLoading">
-        <!-- <mat-iconalt="User" class="user-icon"></mat-icon> -->
-      <img src="assets/advocate.png" alt="User" class="user-icon" width="25" height="25" />
+  <!-- Right: Chat Area -->
+  <div class="chat-section">
+    <h1 class="page-title">🤖 LegalBot <span>– Your Virtual Legal Assistant</span></h1>
+    <p class="page-description">
+      Ask questions, get legal guidance, and explore legal resources. LegalBot is here to help you understand your
+      rights
+      and obligations.
+    </p>
+    <mat-card class="chat-card">
+      <mat-card-title>Start Chatting</mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Type your legal question</mat-label>
+          <textarea matInput [(ngModel)]="userQuestion" (keydown)="handleKeyDown($event)" (input)="autoResize($event)"
+            rows="1" placeholder="E.g. What is FIR process in India?">
+          </textarea>
+        </mat-form-field>
 
-         
-        <h3 style="  color: #1e88e5;">Response:</h3><br />
-        <p [innerHTML]="botResponse"></p>
-      </div>
-    </mat-card-content>
-  </mat-card>
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="askLegalBot()">Ask LegalBot</button>
+        </div>
 
-  <mat-card class="tips-card">
-    <mat-card-title>💡 Legal Tips</mat-card-title>
-    <mat-card-content>
-      <ul>
-        <li>Always keep copies of your legal documents.</li>
-        <li>You can request legal aid from the court if needed.</li>
-        <li>Know your rights under the Indian Constitution.</li>
-      </ul>
-    </mat-card-content>
-  </mat-card>
+        <!-- Loading -->
+        <div *ngIf="isLoading" class="content-wrapper">
+          <ngx-skeleton-loader count="3" appearance="line"></ngx-skeleton-loader>
+          <p class="loading-message">
+            LegalBot is thinking...
+            <img src="assets/critical-thinking.gif" width="40" height="40" />
+          </p>
+        </div>
+
+        <!-- Response -->
+        <div *ngIf="botResponse && !isLoading" class="response">
+          <img src="assets/law.gif" class="response-icon" width="40" height="40" />
+          <h3 style="color: #1e88e5;">Response:</h3>
+          <p [innerHTML]="botResponse"></p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Tips -->
+    <mat-card class="tips-card">
+      <mat-card-title>💡 Legal Tips</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li>Always keep copies of your legal documents.</li>
+          <li>You can request legal aid from the court if needed.</li>
+          <li>Know your rights under the Indian Constitution.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
