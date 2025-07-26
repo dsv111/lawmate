@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -27,6 +27,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   styleUrls: ['./legalbot.component.css']
 })
 export class LegalBotComponent implements OnInit {
+  @ViewChild('responseArea') responseArea!: ElementRef;
+
   userQuestion: string = '';
   chatMessages: any[] = [];
   isLoading: boolean = false;
@@ -37,6 +39,8 @@ export class LegalBotComponent implements OnInit {
   constructor(private geminiService: GeminiService) { }
 
   async ngOnInit(): Promise<void> {
+    const savedHistory = localStorage.getItem('chatHistory');
+    this.chatHistory = savedHistory ? JSON.parse(savedHistory) : [];
     this.chatMessages.push({ role: 'model', text: 'Hello! How can I assist you with legal questions today?' });
     await this.geminiService.initChat(); // 🧠 Init Gemini chat session once
   }
@@ -50,7 +54,6 @@ export class LegalBotComponent implements OnInit {
     this.chatMessages.push({ role: 'user', text: question });
     this.isLoading = true;
     this.errorMessage = '';
-    // this.userQuestion = '';
 
     let formattedResponse = ''; // ✅ Declare outside try block
 
@@ -61,6 +64,8 @@ export class LegalBotComponent implements OnInit {
         .replace(/\*(.*?)\*/g, '<em>$1</em>');
 
       this.botResponse = formattedResponse;
+      // scroll to the bot response after it's received
+      this.scrollToResponse();
 
       this.chatMessages = this.chatMessages.filter(m => m.role !== 'loading');
       this.chatMessages.push({ role: 'model', text: this.botResponse });
@@ -79,10 +84,16 @@ export class LegalBotComponent implements OnInit {
           response: formattedResponse,
           timestamp: new Date().toISOString()
         });
-        console.log("chat history::::", this.chatHistory);
-
+        localStorage.setItem('chatHistory', JSON.stringify(this.chatHistory));
       }
     }
+  }
+
+  // call this after response is set
+  scrollToResponse() {
+    setTimeout(() => {
+      this.responseArea.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }, 100); // slight delay to ensure rendering is complete
   }
 
   historyPushToChat(item: { question: string; response: string; timestamp: any }) {
@@ -93,42 +104,6 @@ export class LegalBotComponent implements OnInit {
       { role: 'bot', text: item.response }
     ];
   }
-
-
-  // async askLegalBot() {
-  //   if (!this.userQuestion.trim()) {
-  //     this.errorMessage = 'Please enter a legal question.';
-  //     return;
-  //   }
-  //   this.chatHistory.push(this.userQuestion.trim());
-  //   const question = this.userQuestion.trim();
-  //   this.errorMessage = '';
-  //   this.chatMessages.push({ role: 'user', text: question });
-  //   this.isLoading = true;
-
-  //   try {
-
-  //     const rawResponse = await this.geminiService.sendMessage(question);
-  //     // Convert markdown-like syntax to HTML
-  //     const formattedResponse = rawResponse
-  //       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')  // **bold**
-  //       .replace(/\*(.*?)\*/g, '<em>$1</em>');              // *italic*
-
-  //     this.botResponse = formattedResponse;
-
-
-  //     // Remove typing placeholder
-  //     this.chatMessages = this.chatMessages.filter(m => m.role !== 'loading');
-
-  //     // Show actual response
-  //     this.chatMessages.push({ role: 'model', text: this.botResponse });
-  //   } catch (error: any) {
-  //     console.error('Error asking LegalBot:', error);
-  //     this.errorMessage = error.message || 'Failed to get a response. Please try again.';
-  //   } finally {
-  //     this.isLoading = false;
-  //   }
-  // }
 
   clearChat(): void {
     this.geminiService.clearChatHistory();

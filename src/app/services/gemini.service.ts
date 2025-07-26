@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { GoogleGenerativeAI, Content, ChatSession, GenerationConfig } from '@google/generative-ai';
+import {
+  GoogleGenerativeAI,
+  Content,
+  ChatSession,
+  GenerationConfig
+} from '@google/generative-ai';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -13,27 +18,41 @@ export class GeminiService {
     this.genAI = new GoogleGenerativeAI(environment.geminiApiKey);
   }
 
-  // Call this once to start a chat session
+  private systemPrompt = `
+You are LegalBot, an AI assistant specialized in **Indian law**.
+You must follow these rules when replying:
+- Be **legally accurate** and explain in **plain, simple language**.
+- Quote relevant **acts, sections, or case laws** when possible.
+- Mention **IPC, CrPC, Civil Procedure, Consumer Protection, Contract Law**, etc., when applicable.
+- Do not guess. If unsure, say "I don't have enough legal clarity to answer."
+- For criminal matters, refer to IPC/CrPC. For property/civil, refer to Civil Law/Acts.
+- Be respectful, helpful, and professional in tone.
+- Do not give medical, financial, or any non-legal advice.
+`;
+
   async initChat(): Promise<void> {
     const model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     this.chat = model.startChat({
-      history: [],
+      history: [], // You can add custom initial context if needed
       generationConfig: {
-        maxOutputTokens: 1000,
-        temperature: 0.8
+        maxOutputTokens: 1200,
+        temperature: 0.6, // Lower temp = more consistent answers
+        topK: 40,
+        topP: 0.9
       } as GenerationConfig
     });
   }
 
-  // Multi-turn chat
-  async sendMessage(message: string): Promise<string> {
+  async sendMessage(userQuestion: string): Promise<string> {
+    const fullPrompt = `${this.systemPrompt.trim()}\n\nUser: ${userQuestion}`;
+
     if (!this.chat) {
       await this.initChat();
     }
 
     try {
-      const result = await this.chat.sendMessage(message);
+      const result = await this.chat.sendMessage(fullPrompt);
       const response = await result.response;
       const botResponse = await response.text();
       return botResponse;
@@ -44,19 +63,6 @@ export class GeminiService {
   }
 
   clearChatHistory(): void {
-    this.initChat(); // re-initialize new session
-  }
-
-  getChatHistory() {
-    
-    // return this.chat ? this.chat.history : [];
-  }
-
-  // Optional: single-turn
-  async generateText(prompt: string): Promise<string> {
-    const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text();
+    this.initChat(); // Recreate chat session from scratch
   }
 }

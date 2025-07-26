@@ -17,10 +17,11 @@
   font-size: 1.1rem;
   color: #666;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
-.chat-card, .tips-card {
+.chat-card,
+.tips-card {
   margin: 1rem auto;
   padding: 1rem;
   border-radius: 12px;
@@ -35,20 +36,6 @@
 .actions {
   display: flex;
   justify-content: flex-end;
-}
-
-.response {
-  margin-top: 1.5rem;
-  background: #e3f2fd;
-  padding: 1rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  font-family: ui-sans-serif;
-    font-size: 16px;
-  /* color: #1e88e5; */
-  color: black;
 }
 
 .tips-card ul {
@@ -98,58 +85,70 @@
   padding: 8px 12px;
   margin-top: 12px;
 }
- .loader-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 16px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    margin-top: 16px;
-  }
 
-  .response {
-    background-color: #f3f3f3;
-    padding: 12px 16px;
-    border-radius: 12px;
-    margin-top: 16px;
-    white-space: pre-wrap;
-    font-family: "Segoe UI", sans-serif;
-    line-height: 1.5;
-  }
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 16px;
+}
 
-  .response h3 {
-    margin-top: 0;
-  }
 
-  .response p {
-    margin: 0;
-  }
-  .content-wrapper {
-  margin: 20px auto;
-  padding: 15px;
+.response {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 16px;
+  color: black;
+  background-color: #f3f3f3;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-top: 8px;
+  white-space: pre-wrap;
+  font-family: "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+.response h3 {
+  margin-top: 0;
+}
+
+.response p {
+  margin: 0;
+}
+
+.content-wrapper {
+  margin: auto;
+  padding: 10px;
   border: 1px solid #eee;
   border-radius: 8px;
   background-color: #fff;
 }
+
 .loading-message {
   text-align: center;
   margin-top: 10px;
 }
 
-.response-icon{
+.response-icon {
   object-fit: cover;
-    border-radius: 50%;
-    padding: 0px;
-    border: 1px solid #1e88e5;
+  border-radius: 50%;
+  padding: 0px;
+  border: 1px solid #1e88e5;
 }
 
 /* ngx-skeleton-loader applies its own styles, but you can override them */
 ngx-skeleton-loader {
-  display: block; /* Ensures each line takes its own space */
-  margin-bottom: 8px; /* Adds spacing between the lines */
+  display: block;
+  /* Ensures each line takes its own space */
+  margin-bottom: 8px;
+  /* Adds spacing between the lines */
 }
+
 .container {
   display: flex;
   gap: 24px;
@@ -162,11 +161,11 @@ ngx-skeleton-loader {
   min-width: 250px;
   max-width: 300px;
   background: #f9f9f9;
-  padding:0px 16px 16px 10px;
+  padding: 0px 16px 16px 10px;
   border-radius: 12px;
   height: fit-content;
   font-size: 14px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .chat-section {
@@ -178,13 +177,15 @@ ngx-skeleton-loader {
 .tips-card {
   margin-top: 16px;
 }
-.history-btn{
+
+.history-btn {
   padding: 4px;
   border-radius: 2px;
   cursor: pointer;
 }
-.history-btn:hover{
-  background-color:white;
+
+.history-btn:hover {
+  background-color: white;
 }
 
 .card-content {
@@ -202,4 +203,19 @@ ngx-skeleton-loader {
   font-size: 8px;
   color: gray;
   white-space: nowrap;
+}
+.action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.response-icon {
+  flex-shrink: 0;
+}
+
+.actions {
+  margin-left: auto; /* push button to right */
 }

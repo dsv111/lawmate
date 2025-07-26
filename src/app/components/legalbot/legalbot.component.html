@@ -2,23 +2,16 @@
   <!-- Left: History Panel -->
   <aside class="history-panel">
     <h4>🕘 History</h4>
-    <!-- <ul>
+    <ul>
       <li *ngFor="let item of chatHistory">
         <mat-card (click)="historyPushToChat(item)" class="history-btn">
-          {{ item.question }} <span class="time-stamp">{{ item.timestamp | date:'short' }}</span>
+          <div class="card-content">
+            <div class="question-text">{{ item.question }}</div>
+            <div class="time-stamp">{{ item.timestamp | date:'short' }}</div>
+          </div>
         </mat-card>
       </li>
-    </ul> -->
-    <ul>
-  <li *ngFor="let item of chatHistory">
-    <mat-card (click)="historyPushToChat(item)" class="history-btn">
-      <div class="card-content">
-        <div class="question-text">{{ item.question }}</div>
-        <div class="time-stamp">{{ item.timestamp | date:'short' }}</div>
-      </div>
-    </mat-card>
-  </li>
-</ul>
+    </ul>
 
   </aside>
 
@@ -39,10 +32,13 @@
             rows="1" placeholder="E.g. What is FIR process in India?">
           </textarea>
         </mat-form-field>
-
-        <div class="actions">
-          <button mat-raised-button color="primary" (click)="askLegalBot()">Ask LegalBot</button>
+        <div class="action-row">
+          <img *ngIf="botResponse && !isLoading" src="assets/law.gif" class="response-icon" width="40" height="40" />
+          <div class="actions">
+            <button mat-raised-button color="primary" (click)="askLegalBot()">Ask LegalBot</button>
+          </div>
         </div>
+
 
         <!-- Loading -->
         <div *ngIf="isLoading" class="content-wrapper">
@@ -54,8 +50,7 @@
         </div>
 
         <!-- Response -->
-        <div *ngIf="botResponse && !isLoading" class="response">
-          <img src="assets/law.gif" class="response-icon" width="40" height="40" />
+        <div #responseArea *ngIf="botResponse && !isLoading" class="response">
           <h3 style="color: #1e88e5;">Response:</h3>
           <p [innerHTML]="botResponse"></p>
         </div>
