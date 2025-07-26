@@ -1,0 +1,79 @@
+.homepage {
+  text-align: center;
+  padding: 4rem 1rem;
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #f0f4ff, #ffffff);
+  min-height: 100vh;
+}
+
+.headline {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a237e;
+  margin-bottom: 1rem;
+}
+
+.subtext {
+  font-size: 1.2rem;
+  max-width: 680px;
+  margin: 0 auto 3rem auto;
+  color: #424242;
+  line-height: 1.7;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.feature-card {
+  width: 280px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(33, 33, 33, 0.08);
+  border: 1px solid #e0e0e0;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.mat-card-title {
+  font-weight: 600;
+  font-size: 1.15rem !important;
+  color: #0d47a1;
+}
+
+.mat-card-content {
+  font-size: 0.95rem !important;
+  color: #424242;
+  padding-bottom: 1rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+button[mat-raised-button] {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  text-transform: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+button[mat-raised-button]:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}

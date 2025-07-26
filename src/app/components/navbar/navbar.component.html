@@ -1,0 +1,21 @@
+<nav class="navbar">
+  <div class="logo-section">
+    <img src="assets/lmlogwithbg.jpeg" alt="Lawmate Logo" class="logo" />
+    <strong class="brand">Lawmate</strong>
+  </div>
+
+  <div class="nav-links">
+    <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a routerLink="/about" routerLinkActive="active-link">About</a>
+    <a routerLink="/legalbot" routerLinkActive="active-link">LegalBot</a>
+    <a routerLink="/doc-generator" routerLinkActive="active-link">Document Generator</a>
+    <a routerLink="/lawyer-connect" routerLinkActive="active-link">Lawyer Connect</a>
+    
+    <!-- Profile icon or Signout -->
+    <a routerLink="/signout">
+      <img src="assets/advocate.png" alt="User" class="user-icon" />
+    </a>
+  </div>
+</nav>
+
+

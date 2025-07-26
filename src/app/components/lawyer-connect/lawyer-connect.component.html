@@ -1,0 +1,31 @@
+<div class="lawyer-connect-container">
+  <h2>Connect with a Lawyer</h2>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search lawyers</mat-label>
+    <input matInput placeholder="Name, location, or specialty" [(ngModel)]="searchQuery" (input)="filterLawyers()" />
+    <button mat-icon-button matSuffix>
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div class="lawyer-list">
+    <mat-card *ngFor="let lawyer of filteredLawyers" class="lawyer-card">
+      <mat-card-header>
+        <mat-card-title>{{ lawyer.name }}</mat-card-title>
+        <mat-card-subtitle>{{ lawyer.specialty }} | {{ lawyer.location }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Rating: ⭐ {{ lawyer.rating }}</p>
+        <p>Status: <span [ngClass]="lawyer.available ? 'available' : 'unavailable'">
+          {{ lawyer.available ? 'Available' : 'Unavailable' }}
+        </span></p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="connect(lawyer.name)" [disabled]="!lawyer.available">
+          Connect
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

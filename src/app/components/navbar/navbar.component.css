@@ -1,0 +1,80 @@
+/* Sticky navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Logo section */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  max-height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border: 2px solid black;
+}
+
+.brand {
+  font-size: 20px;
+  text-shadow: 1px 1px #28343e;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  font-family: monospace;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Active link */
+.active-link {
+  background-color: white;
+  color: black !important;
+  font-weight: bold;
+}
+.active-link:hover {
+  color: white !important;
+  background-color: black !important;
+}
+/* User avatar */
+.user-icon {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: white;
+}
+
+/* Push content below navbar */
+body {
+  margin: 0;
+  padding-top: 70px;
+}

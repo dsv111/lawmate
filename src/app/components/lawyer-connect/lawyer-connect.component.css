@@ -1,0 +1,32 @@
+.lawyer-connect-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 24px;
+  text-align: center;
+}
+
+.search-field {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.lawyer-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.lawyer-card {
+  width: 280px;
+}
+
+.available {
+  color: green;
+  font-weight: 600;
+}
+
+.unavailable {
+  color: red;
+  font-weight: 600;
+}

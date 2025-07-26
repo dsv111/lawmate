@@ -1,0 +1,28 @@
+<div class="doc-container">
+  <h2>📝 Document Generator</h2>
+
+  <div class="form-section" *ngIf="!generated">
+    <input
+      type="text"
+      placeholder="Enter Document Title"
+      [(ngModel)]="documentTitle"
+      class="input-field"
+    />
+
+    <textarea
+      rows="8"
+      placeholder="Enter Document Content"
+      [(ngModel)]="documentContent"
+      class="input-area"
+    ></textarea>
+
+    <button (click)="generateDocument()" class="primary-btn">Generate</button>
+  </div>
+
+  <div *ngIf="generated" class="output-section">
+    <h3>{{ documentTitle }}</h3>
+    <p>{{ documentContent }}</p>
+
+    <button (click)="resetForm()" class="secondary-btn">Create New</button>
+  </div>
+</div>

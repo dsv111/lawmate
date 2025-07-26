@@ -1,0 +1,70 @@
+.doc-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #3f51b5;
+  text-align: center;
+}
+
+.input-field,
+.input-area {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border: 1px solid #c5cae9;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.input-field:focus,
+.input-area:focus {
+  border-color: #3f51b5;
+  outline: none;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 12px 20px;
+  margin-top: 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primary-btn {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.primary-btn:hover {
+  background-color: #303f9f;
+}
+
+.secondary-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.secondary-btn:hover {
+  background-color: #bdbdbd;
+}
+
+.output-section {
+  padding-top: 20px;
+}
+
+.output-section h3 {
+  color: #3f51b5;
+  margin-bottom: 10px;
+}
