@@ -1,19 +1,6 @@
+<!-- legalbot.html -->
 <div class="container">
   <!-- Left: History Panel -->
-  <!-- <aside class="history-panel">
-    <h4>🕘 History</h4>
-    <ul>
-      <li *ngFor="let item of chatHistory">
-        <mat-card (click)="historyPushToChat(item)" class="history-btn">
-          <div class="card-content">
-            <div class="question-text">{{ item.question }}</div>
-            <div class="time-stamp">{{ item.timestamp | date:'short' }}</div>
-          </div>
-        </mat-card>
-      </li>
-    </ul>
-
-  </aside> -->
   <aside class="history-panel">
     <h4>🕘 History</h4>
     <ul>
@@ -23,22 +10,13 @@
             <div class="question-text" (click)="historyPushToChat(item)">
               {{ item.question }}
             </div>
-            <!-- <div class="time-stamp">{{ item.timestamp | date: 'short' }}</div> -->
-
             <div class="options-container">
-              <!-- <button mat-icon-button (click)="toggleMenu(item)">
-              <mat-icon>more_vert</mat-icon>
-            </button> -->
-              <button mat-icon-button (click)="toggleMenu(item)" class="menu-btn">
+              <button mat-icon-button (click)="toggleMenu(item)">
                 <mat-icon style="font-size: 18px;">more_vert</mat-icon>
               </button>
-
               <div class="options-menu" *ngIf="item.showMenu">
-                <!-- <button (click)="editHistory(item)">Edit</button> -->
                 <button mat-raised-button color="warn" (click)="removeHistory(item)">Remove</button>
-                <!-- <button (click)="shareHistory(item)">Share</button> -->
-              <!-- </div> -->
-            </div>
+              </div>
             </div>
           </div>
         </mat-card>
@@ -46,31 +24,27 @@
     </ul>
   </aside>
 
-
   <!-- Right: Chat Area -->
   <div class="chat-section">
     <h1 class="page-title">🤖 LegalBot <span>– Your Virtual Legal Assistant</span></h1>
     <p class="page-description">
-      Ask questions, get legal guidance, and explore legal resources. LegalBot is here to help you understand your
-      rights
-      and obligations.
+      Ask questions, get legal guidance, and explore legal resources. LegalBot is here to help you understand your rights and obligations.
     </p>
+
     <mat-card class="chat-card">
       <mat-card-title>Start Chatting</mat-card-title>
       <mat-card-content>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Type your legal question</mat-label>
-          <textarea matInput [(ngModel)]="userQuestion" (keydown)="handleKeyDown($event)" (input)="autoResize($event)"
-            rows="1" placeholder="E.g. What is FIR process in India?">
-          </textarea>
+          <textarea matInput [(ngModel)]="userQuestion" (keydown)="handleKeyDown($event)" (input)="autoResize($event)" rows="1" placeholder="E.g. What is FIR process in India?"></textarea>
         </mat-form-field>
+
         <div class="action-row">
           <img *ngIf="botResponse && !isLoading" src="assets/law.gif" class="response-icon" width="40" height="40" />
           <div class="actions">
             <button mat-raised-button color="primary" (click)="askLegalBot()">Ask LegalBot</button>
           </div>
         </div>
-
 
         <!-- Loading -->
         <div *ngIf="isLoading" class="content-wrapper">

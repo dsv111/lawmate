@@ -1,10 +1,28 @@
-.legalbot-page {
-  max-width: 960px;
-  margin: 3rem auto;
-  padding: 1rem;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+/* === Layout === */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 16px;
 }
 
+.history-panel {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  background: #f9f9f9;
+  padding: 0 16px 16px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+}
+
+.chat-section {
+  flex: 3;
+  min-width: 300px;
+}
+
+/* === Typography === */
 .page-title {
   font-size: 2.4rem;
   font-weight: bold;
@@ -20,6 +38,7 @@
   margin-bottom: 1rem;
 }
 
+/* === Cards === */
 .chat-card,
 .tips-card {
   margin: 1rem auto;
@@ -33,21 +52,7 @@
   width: 100%;
 }
 
-.actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.tips-card ul {
-  margin: 0;
-  padding-left: 1.2rem;
-}
-
-.tips-card li {
-  margin: 0.5rem 0;
-  color: #555;
-}
-
+/* === Chat UI === */
 .chat-window {
   margin-top: 20px;
   max-height: 400px;
@@ -58,8 +63,8 @@
   padding: 10px 14px;
   margin: 8px 0;
   border-radius: 12px;
-  width: fit-content;
   max-width: 80%;
+  width: fit-content;
 }
 
 .chat-message.user {
@@ -86,18 +91,7 @@
   margin-top: 12px;
 }
 
-.loader-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  margin-top: 16px;
-}
-
-
+/* === Bot Response === */
 .response {
   display: flex;
   align-items: flex-start;
@@ -109,8 +103,8 @@
   border-radius: 12px;
   margin-top: 8px;
   white-space: pre-wrap;
-  font-family: "Segoe UI", sans-serif;
   line-height: 1.5;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .response h3 {
@@ -121,6 +115,14 @@
   margin: 0;
 }
 
+.response-icon {
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #1e88e5;
+}
+
+/* === Loading State === */
 .content-wrapper {
   margin: auto;
   padding: 10px;
@@ -134,48 +136,10 @@
   margin-top: 10px;
 }
 
-.response-icon {
-  object-fit: cover;
-  border-radius: 50%;
-  padding: 0px;
-  border: 1px solid #1e88e5;
-}
-
-/* ngx-skeleton-loader applies its own styles, but you can override them */
-ngx-skeleton-loader {
-  display: block;
-  /* Ensures each line takes its own space */
-  margin-bottom: 8px;
-  /* Adds spacing between the lines */
-}
-
-.container {
-  display: flex;
-  gap: 24px;
-  padding: 16px;
-  flex-wrap: wrap;
-}
-
-.history-panel {
-  flex: 1;
-  min-width: 250px;
-  max-width: 300px;
-  background: #f9f9f9;
-  padding: 0px 16px 16px 10px;
-  border-radius: 12px;
-  height: fit-content;
-  font-size: 14px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.chat-section {
-  flex: 3;
-  min-width: 300px;
-}
-
-.chat-card,
-.tips-card {
-  margin-top: 16px;
+/* === History Panel === */
+.history-item {
+  position: relative;
+  margin-bottom: 2px;
 }
 
 .history-btn {
@@ -190,89 +154,18 @@ ngx-skeleton-loader {
 
 .card-content {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  position: relative;
+  padding-right: 20px;
 }
 
 .question-text {
   flex: 1 1 auto;
 }
 
-.time-stamp {
-  font-size: 8px;
-  color: gray;
-  white-space: nowrap;
-}
-.action-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.response-icon {
-  flex-shrink: 0;
-}
-
-.actions {
-  margin-left: auto; /* push button to right */
-}
-
-.card-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}.history-item {
-  position: relative;
-  margin-bottom: 2px;
-}
-
-/* .options-container {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  display: none;
-} */
-
-.history-item:hover .options-container {
-  display: block;
-}
-
-.options-menu {
-  position: absolute;
-  /* top: 30px; */
-  right: 0;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  border-radius: 4px;
-  z-index: 10;
-}
-
-.options-menu button {
-  display: block;
-  width: 100%;
-  /* padding: 5px 10px; */
-  border: none;
-  text-align: left;
-  cursor: pointer;
-}
-/* .options-container button {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  min-width: 0;
-  font-size: 14px;
-  line-height: 1;
-} */
-
-.card-content {
-  position: relative;
-  padding-right: 20px; /* Leave space for 3-dots */
-}
-/* Three dots (⋮) button container */
+/* === Dropdown Options (⋮) === */
 .options-container {
   position: absolute;
   top: 6px;
@@ -281,17 +174,13 @@ ngx-skeleton-loader {
   z-index: 2;
 }
 
-/* Show 3-dots on hover of the history item */
 .history-item:hover .options-container {
   display: block;
 }
 
-/* Three dots icon button */
 .options-container button {
   background: transparent;
   border: none;
-  padding: 0;
-  margin: 0;
   width: 24px;
   height: 24px;
   font-size: 18px;
@@ -302,7 +191,6 @@ ngx-skeleton-loader {
   justify-content: center;
 }
 
-/* Options menu dropdown */
 .options-menu {
   position: absolute;
   top: 15px;
@@ -314,7 +202,6 @@ ngx-skeleton-loader {
   min-width: 100px;
 }
 
-/* Action items like Edit, Remove, Share */
 .options-menu button {
   display: block;
   width: 100%;
@@ -327,12 +214,39 @@ ngx-skeleton-loader {
   transition: background 0.2s ease;
 }
 
-/* Hover effect for dropdown items */
 .options-menu button:hover {
   background-color: #ffffff;
   color: #000;
 }
 
+/* === Action Buttons Row === */
+.action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
 
+.actions {
+  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+}
 
+/* === Tips List === */
+.tips-card ul {
+  padding-left: 1.2rem;
+  margin: 0;
+}
 
+.tips-card li {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+/* === Skeleton Loader === */
+ngx-skeleton-loader {
+  display: block;
+  margin-bottom: 8px;
+}

@@ -15,16 +15,18 @@
       [(ngModel)]="documentPrompt"
       class="input-area"
     ></textarea>
-    <button (click)="generateDocument()" class="primary-btn">Generate</button>
+    <button (click)="generateDocument()" mat-raised-button color="primary">Generate</button>
 
     <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-    <p *ngIf="isLoading">Generating document...</p>
+    <p *ngIf="isLoading">Generating document...
+      <img src="assets/convert.gif" width="40" height="40" />
+    </p>
   </div>
 
   <!-- Generated Output -->
   <div *ngIf="generated" class="output-section">
     <h3>{{ documentTitle }}</h3>
     <div [innerHTML]="generatedContent" class="formatted-content"></div>
-    <button (click)="resetForm()" class="secondary-btn">Create New</button>
+    <button (click)="resetForm()" mat-raised-button color="primary">Create New</button>
   </div>
 </div>

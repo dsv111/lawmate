@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GeminiService } from '../../services/gemini.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-doc-generator',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './doc-generator.component.html',
   styleUrls: ['./doc-generator.component.css'],
 })
@@ -27,17 +28,11 @@ export class DocGeneratorComponent {
       this.errorMessage = 'Both title and prompt are required.';
       return;
     }
-
     this.isLoading = true;
-
     try {
       const prompt = `
-You are a legal document generator AI.
-Generate a professional, structured document titled: "${this.documentTitle}".
-Use the following details as context:
-
-${this.documentPrompt}
-      `.trim();
+                You are a legal document generator AI.Generate a professional, structured document titled: "${this.documentTitle}". Use the following details as context:
+${this.documentPrompt}`.trim();
 
       const result = await this.geminiService.generateText(prompt);
       this.generatedContent = this.formatMarkdown(result);
