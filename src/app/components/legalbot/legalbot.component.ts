@@ -34,7 +34,7 @@ export class LegalBotComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: string = '';
   botResponse: any;
-  chatHistory: { question: string; response: string; timestamp: any }[] = [];
+  chatHistory: { question: string; response: string; timestamp: any,showMenu:boolean }[] = [];
 
   constructor(private geminiService: GeminiService) { }
 
@@ -45,12 +45,20 @@ export class LegalBotComponent implements OnInit {
     await this.geminiService.initChat(); // 🧠 Init Gemini chat session once
   }
   async askLegalBot() {
-    if (!this.userQuestion.trim()) {
+    const question = this.userQuestion.trim();
+
+    if (!question) {
       this.errorMessage = 'Please enter a legal question.';
       return;
     }
 
-    const question = this.userQuestion.trim();
+    // ✅ Avoid repeated questions
+    const lastHistory = this.chatHistory[this.chatHistory.length - 1];
+    if (lastHistory && lastHistory.question === question) {
+      this.errorMessage = 'You already asked this question.';
+      return;
+    }
+
     this.chatMessages.push({ role: 'user', text: question });
     this.isLoading = true;
     this.errorMessage = '';
@@ -82,7 +90,8 @@ export class LegalBotComponent implements OnInit {
         this.chatHistory.push({
           question,
           response: formattedResponse,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          showMenu:false
         });
         localStorage.setItem('chatHistory', JSON.stringify(this.chatHistory));
       }
@@ -96,7 +105,7 @@ export class LegalBotComponent implements OnInit {
     }, 100); // slight delay to ensure rendering is complete
   }
 
-  historyPushToChat(item: { question: string; response: string; timestamp: any }) {
+  historyPushToChat(item: { question: string; response: string; timestamp: any,showMenu:boolean }) {
     this.userQuestion = item.question;
     this.botResponse = item.response;
     this.chatMessages = [
@@ -123,6 +132,31 @@ export class LegalBotComponent implements OnInit {
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
   }
+
+  toggleMenu(item: any): void {
+  this.chatHistory.forEach(i => {
+    if (i !== item) {
+      i.showMenu = false;
+    }
+  });
+  item.showMenu = !item.showMenu;
+}
+
+editHistory(item: any): void {
+  // Your edit logic here
+  console.log('Edit', item);
+  item.showMenu = false;
+}
+
+removeHistory(item: any): void {
+  this.chatHistory = this.chatHistory.filter(i => i !== item);
+}
+
+shareHistory(item: any): void {
+  // Your share logic here
+  console.log('Share', item);
+  item.showMenu = false;
+}
 
 
 }

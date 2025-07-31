@@ -22,6 +22,11 @@
   gap: 0.5rem;
 }
 
+.logo:hover {
+  cursor: pointer;
+  border: 1px solid white;
+}
+
 .logo {
   max-height: 60px;
   width: 60px;
@@ -60,10 +65,12 @@
   color: black !important;
   font-weight: bold;
 }
+
 .active-link:hover {
   color: white !important;
   background-color: black !important;
 }
+
 /* User avatar */
 .user-icon {
   height: 30px;

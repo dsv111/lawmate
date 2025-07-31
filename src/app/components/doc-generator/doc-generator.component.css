@@ -68,3 +68,53 @@ h2 {
   color: #3f51b5;
   margin-bottom: 10px;
 }
+
+.output-section {
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.output-section h3 {
+  margin-bottom: 10px;
+}
+
+.output-section pre {
+  white-space: pre-wrap;   /* Wrap text */
+  word-break: break-word;  /* Break long words */
+  max-width: 100%;
+  overflow-wrap: break-word;
+  font-family: 'Courier New', monospace;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  overflow-x: auto; /* fallback in case of very long unbreakable strings */
+}
+
+.formatted-content {
+  font-family: 'Georgia', serif;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #000;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  white-space: pre-line;
+}
+
+.doc-line {
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.doc-bullet {
+  padding-left: 10px;
+  text-indent: -10px;
+}
+
+.doc-space {
+  height: 18px;
+}

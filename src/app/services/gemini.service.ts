@@ -65,4 +65,13 @@ You must follow these rules when replying:
   clearChatHistory(): void {
     this.initChat(); // Recreate chat session from scratch
   }
+
+  //generate document
+  async generateText(prompt: string): Promise<string> {
+  const model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const result = await model.generateContent(prompt);
+  const response = await result.response;
+  return response.text();
+}
+
 }

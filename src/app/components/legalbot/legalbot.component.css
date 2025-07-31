@@ -219,3 +219,120 @@ ngx-skeleton-loader {
 .actions {
   margin-left: auto; /* push button to right */
 }
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}.history-item {
+  position: relative;
+  margin-bottom: 2px;
+}
+
+/* .options-container {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: none;
+} */
+
+.history-item:hover .options-container {
+  display: block;
+}
+
+.options-menu {
+  position: absolute;
+  /* top: 30px; */
+  right: 0;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.options-menu button {
+  display: block;
+  width: 100%;
+  /* padding: 5px 10px; */
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+/* .options-container button {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1;
+} */
+
+.card-content {
+  position: relative;
+  padding-right: 20px; /* Leave space for 3-dots */
+}
+/* Three dots (⋮) button container */
+.options-container {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: none;
+  z-index: 2;
+}
+
+/* Show 3-dots on hover of the history item */
+.history-item:hover .options-container {
+  display: block;
+}
+
+/* Three dots icon button */
+.options-container button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Options menu dropdown */
+.options-menu {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  min-width: 100px;
+}
+
+/* Action items like Edit, Remove, Share */
+.options-menu button {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Hover effect for dropdown items */
+.options-menu button:hover {
+  background-color: #ffffff;
+  color: #000;
+}
+
+
+
+

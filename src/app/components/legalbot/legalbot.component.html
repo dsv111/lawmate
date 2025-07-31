@@ -1,6 +1,6 @@
 <div class="container">
   <!-- Left: History Panel -->
-  <aside class="history-panel">
+  <!-- <aside class="history-panel">
     <h4>🕘 History</h4>
     <ul>
       <li *ngFor="let item of chatHistory">
@@ -13,7 +13,39 @@
       </li>
     </ul>
 
+  </aside> -->
+  <aside class="history-panel">
+    <h4>🕘 History</h4>
+    <ul>
+      <li *ngFor="let item of chatHistory" class="history-item">
+        <mat-card class="history-btn">
+          <div class="card-content">
+            <div class="question-text" (click)="historyPushToChat(item)">
+              {{ item.question }}
+            </div>
+            <!-- <div class="time-stamp">{{ item.timestamp | date: 'short' }}</div> -->
+
+            <div class="options-container">
+              <!-- <button mat-icon-button (click)="toggleMenu(item)">
+              <mat-icon>more_vert</mat-icon>
+            </button> -->
+              <button mat-icon-button (click)="toggleMenu(item)" class="menu-btn">
+                <mat-icon style="font-size: 18px;">more_vert</mat-icon>
+              </button>
+
+              <div class="options-menu" *ngIf="item.showMenu">
+                <!-- <button (click)="editHistory(item)">Edit</button> -->
+                <button mat-raised-button color="warn" (click)="removeHistory(item)">Remove</button>
+                <!-- <button (click)="shareHistory(item)">Share</button> -->
+              <!-- </div> -->
+            </div>
+            </div>
+          </div>
+        </mat-card>
+      </li>
+    </ul>
   </aside>
+
 
   <!-- Right: Chat Area -->
   <div class="chat-section">

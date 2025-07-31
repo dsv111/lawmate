@@ -1,6 +1,8 @@
+<!-- doc-generator.component.html -->
 <div class="doc-container">
   <h2>📝 Document Generator</h2>
 
+  <!-- Form Area -->
   <div class="form-section" *ngIf="!generated">
     <input
       type="text"
@@ -11,18 +13,25 @@
 
     <textarea
       rows="8"
-      placeholder="Enter Document Content"
-      [(ngModel)]="documentContent"
+      placeholder="Describe what document you want"
+      [(ngModel)]="documentPrompt"
       class="input-area"
     ></textarea>
 
-    <button (click)="generateDocument()" class="primary-btn">Generate</button>
+    <button (click)="generateDocument()" class="primary-btn">
+      Generate
+    </button>
+
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+    <p *ngIf="isLoading">Generating document...</p>
   </div>
 
+  <!-- Output Area -->
   <div *ngIf="generated" class="output-section">
-    <h3>{{ documentTitle }}</h3>
-    <p>{{ documentContent }}</p>
+  <h3>{{ documentTitle }}</h3>
+  <div [innerHTML]="generatedContent" class="formatted-content"></div>
 
-    <button (click)="resetForm()" class="secondary-btn">Create New</button>
-  </div>
+  <button (click)="resetForm()" class="secondary-btn">Create New</button>
+</div>
+
 </div>
