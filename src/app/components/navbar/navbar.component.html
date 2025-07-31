@@ -10,12 +10,29 @@
     <a routerLink="/legalbot" routerLinkActive="active-link">LegalBot</a>
     <a routerLink="/doc-generator" routerLinkActive="active-link">Document Generator</a>
     <a routerLink="/lawyer-connect" routerLinkActive="active-link">Lawyer Connect</a>
-    
+    <!-- <a routerLink="/signin" routerLinkActive="active-link" *ngIf="!isLoggedIn"><mat-icon>person</mat-icon> Sign In</a> -->
+<a routerLink="/signin" routerLinkActive="active-link" *ngIf="!isLoggedIn" class="signin-link">
+  Sign In
+  <mat-icon>person</mat-icon>
+</a>
+
     <!-- Profile icon or Signout -->
-    <a routerLink="/signout">
+    <div *ngIf="isLoggedIn" class="user-icon-wrapper" (mouseenter)="onHover()" (mouseleave)="onLeave()">
       <img src="assets/advocate.png" alt="User" class="user-icon" />
-    </a>
+
+      <!-- Dropdown -->
+      <div class="dropdown" *ngIf="showDropdown">
+
+        <a routerLink="/profile" routerLinkActive="active-link">
+          Profile
+        </a>
+        <a routerLink="/signin" routerLinkActive="active-link">
+          Log out
+        </a>
+      </div>
+    </div>
+
+
+
   </div>
 </nav>
-
-

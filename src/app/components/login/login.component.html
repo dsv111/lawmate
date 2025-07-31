@@ -1,0 +1,21 @@
+<form class="login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h2>Welcome to Lawmate</h2>
+      <img src="../../../assets/logolawmate.png" routerLink="/" alt="Lawmate Logo" class="logo" width="150" height="150" />
+  <input type="text" placeholder="User Name" formControlName="username"
+ />
+  <div *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid" class="error">
+    Username is required
+  </div>
+
+  <input type="password" placeholder="Password" formControlName="password"
+ />
+ <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="error">
+    Password is required
+  </div>
+  
+  <input type="submit" value="Log In" />
+  <div class="links">
+    <a href="#">Forgot password</a>
+    <a href="#">Register</a>
+  </div>
+</form>
