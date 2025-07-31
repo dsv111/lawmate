@@ -1,8 +1,8 @@
 <div class="doc-container">
   <h2>📝 Document Generator</h2>
 
-  <!-- Input Form -->
-  <div class="form-section" *ngIf="!generated">
+  <!-- Initial Input Form -->
+  <div class="form-section" *ngIf="!fieldsRequested && !generated">
     <input
       type="text"
       placeholder="Enter Document Title"
@@ -10,20 +10,50 @@
       class="input-field"
     />
     <textarea
-      rows="8"
+      rows="6"
       placeholder="Describe what document you want"
       [(ngModel)]="documentPrompt"
       class="input-area"
     ></textarea>
-    <button (click)="generateDocument()" mat-raised-button color="primary">Generate</button>
+    <button (click)="generateFieldRequest()" mat-raised-button color="primary">Next</button>
 
     <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-    <p *ngIf="isLoading">Generating document...
-      <img src="assets/convert.gif" width="40" height="40" />
-    </p>
+    <p *ngIf="isLoading">Thinking... <img src="assets/convert.gif" width="40" /></p>
   </div>
 
-  <!-- Generated Output -->
+  <!-- Dynamic Field Input Form -->
+  <div *ngIf="fieldsRequested && !generated" class="form-section">
+    <form [formGroup]="dynamicForm">
+      <div *ngFor="let field of dynamicFields" class="form-field">
+        <label>
+          {{ field.label }}
+          <mat-icon
+            *ngIf="field.helpText"
+            matTooltip="{{ field.helpText }}"
+            matTooltipPosition="right"
+            class="material-symbols-outlined"
+            >live_help</mat-icon
+          >
+          
+        </label>
+        <input type="text" [formControlName]="field.key" class="input-field" />
+      </div>
+
+      <div class="button-container">
+        <button (click)="generateFinalDocument()" mat-raised-button color="primary">
+          Generate Document
+        </button>
+        <div *ngIf="isLoading" class="loading-container">
+          <span>Generating...</span>
+          <img src="assets/convert.gif" width="30" height="30" />
+        </div>
+      </div>
+
+      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+    </form>
+  </div>
+
+  <!-- Final Output -->
   <div *ngIf="generated" class="output-section">
     <h3>{{ documentTitle }}</h3>
     <div [innerHTML]="generatedContent" class="formatted-content"></div>
