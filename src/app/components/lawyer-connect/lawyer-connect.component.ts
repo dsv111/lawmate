@@ -28,22 +28,43 @@ export class LawyerConnectComponent implements OnInit {
       name: 'Adv. Jhansi SriVidya Devi',
       location: 'Delhi',
       specialty: 'Criminal Law',
-      rating: 4.5,
+      rating: 4.8,
       available: true
     },
     {
       name: 'Adv. Stephen Sai Krishna',
       location: 'Hyderabad',
       specialty: 'Family Law',
-      rating: 4.8,
+      rating: 4.7,
       available: false
     },
     {
-      name: 'Adv.Surya Naga Phani',
+      name: 'Adv.Saikh Su Na Phani',
+      location: 'Assam',
+      specialty: 'Civil Law / Litigation',
+      rating: 4.6,
+      available: true
+    },
+    {
+      name: 'Adv.William Vamsi',
       location: 'Mumbai',
       specialty: 'Property Law',
-      rating: 4.2,
+      rating: 4.5,
+      available: false
+    },
+    {
+      name: 'Adv.George Ganesh',
+      location: 'Goa',
+      specialty: 'Immigration Law',
+      rating: 4.4,
       available: true
+    },
+    {
+      name: 'Adv.Nelson Nani',
+      location: 'Rajahmundry',
+      specialty: 'Employment and Labor Law',
+      rating: 4.3,
+      available: false
     }
   ];
 

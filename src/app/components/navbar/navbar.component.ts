@@ -1,36 +1,45 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
-  standalone:true,
-  imports: [RouterModule,CommonModule,MatIcon],
+  standalone: true,
+  imports: [RouterModule, CommonModule, MatIcon],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
   showDropdown = false;
-  isLoggedIn = false;
-ngOnInit() {
-    // this.checkSession();
+  loggedUserType: string | null = null;
+    private authService = inject(AuthService);
+
+
+  isLoggedIn = this.authService.isLoggedIn;
+  userType = this.authService.userType;
+
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    const loggedUserObject = sessionStorage.getItem('loggedUserObject');
+    if (loggedUserObject) {
+      const user = JSON.parse(loggedUserObject);
+      this.loggedUserType = user?.userType || null;
+    }
   }
 
   onHover() {
-  this.checkSession();
-  this.showDropdown = true;
-  console.log('Hovered: showDropdown =', this.showDropdown);
-}
+    this.showDropdown = true;
+  }
 
-onLeave() {
-  this.showDropdown = false;
-  console.log('Left: showDropdown =', this.showDropdown);
-}
+  onLeave() {
+    this.showDropdown = false;
+  }
 
-
-  checkSession() {
-    // Replace 'userLoggedIn' with your actual session key
-    this.isLoggedIn = sessionStorage.getItem('userLoggedIn') === 'true';
+  logOut() {
+    this.authService.clearUser();
+    this.router.navigate(['/signin']);
   }
 }

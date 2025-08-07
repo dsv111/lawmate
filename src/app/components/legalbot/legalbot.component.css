@@ -168,8 +168,8 @@
 /* === Dropdown Options (⋮) === */
 .options-container {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 0px;
+  right: 0px;
   display: none;
   z-index: 2;
 }
@@ -193,31 +193,48 @@
 
 .options-menu {
   position: absolute;
-  top: 15px;
-  right: 10px;
-  background: #fff;
+  top: 10px;
+  right: 0px;
   border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   z-index: 10;
-  min-width: 100px;
 }
 
 .options-menu button {
-  display: block;
+  /* Common styles for all buttons in the menu */
+  display: flex; /* Changed to flex to align icon and text */
+  align-items: center; /* Vertically centers the content */
   width: 100%;
-  padding: 6px 12px;
-  background: none;
-  border: none;
-  text-align: left;
-  font-size: 14px;
+  background-color: white !important;
+  border: 1px solid #f44336; /* Using a consistent border for the button state */
+  text-align: left; /* Keep this for other potential menu items */
+  font-size: 12px;
   cursor: pointer;
   transition: background 0.2s ease;
+  padding: 6px 12px; /* Add padding here for better spacing */
+}
+
+/* Specific styling for the remove button with icon */
+.remove-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Aligns content to the left */
+  gap: 2px; /* Space between the icon and text */
+  color: black; /* Set a base color */
+  border: 1px solid #f44336; /* Set the initial border color */
+}
+
+.remove-btn mat-icon {
+  font-size: 18px; /* Adjust icon size if needed */
+  height: 18px;
+  width: 18px;
 }
 
 .options-menu button:hover {
-  background-color: #ffffff;
-  color: #000;
+  color: #f44336;
+  background-color: #fcebeb !important; /* Lighter red hover background */
+  border-color: #f44336;
 }
+
 
 /* === Action Buttons Row === */
 .action-row {
@@ -250,3 +267,40 @@ ngx-skeleton-loader {
   display: block;
   margin-bottom: 8px;
 }
+
+/* New styles for truncation */
+.truncate {
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis for truncated text */
+  max-width: 200px; /* Adjust based on your design */
+}
+
+/* ✅ Make the history list scrollable */
+.history-panel {
+  width: 280px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ✅ Scrollable area */
+.history-scroll {
+  overflow-y: auto;
+  max-height: 75vh;    /* Adjust as per your preference */
+  padding-right: 5px;  /* To avoid scrollbar overlap */
+}
+
+/* ✅ Optional scrollbar styling */
+.history-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 3px;
+}
+

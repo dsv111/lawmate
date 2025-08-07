@@ -34,8 +34,11 @@
   </section>
 
   <div class="actions">
-    <a routerLink="/legalbot"><button mat-raised-button color="primary">Start LegalBot</button></a>
+    <button (click)="routeRespectingPage('legal-bot')" mat-raised-button color="primary">Start LegalBot</button>
+    <button (click)="routeRespectingPage('doc-gen')" mat-raised-button color="accent">Try Document Generator</button>
+    <button (click)="routeRespectingPage('book-lawer')" mat-raised-button color="warn">Book a Lawyer</button>
+    <!-- <a routerLink="/legalbot"><button mat-raised-button color="primary">Start LegalBot</button></a>
     <a routerLink="/doc-generator"><button mat-raised-button color="accent">Try Document Generator</button></a>
-    <a routerLink="/lawyer-connect"><button mat-raised-button color="warn">Book a Lawyer</button></a>
+    <a routerLink="/lawyer-connect"><button mat-raised-button color="warn">Book a Lawyer</button></a> -->
   </div>
 </section>

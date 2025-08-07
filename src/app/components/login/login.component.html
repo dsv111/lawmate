@@ -1,9 +1,10 @@
-<form class="login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<!-- Login Form here  -->
+<form class="login" *ngIf="isLoginMode" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
   <h2>Welcome to Lawmate</h2>
       <img src="../../../assets/logolawmate.png" routerLink="/" alt="Lawmate Logo" class="logo" width="150" height="150" />
-  <input type="text" placeholder="User Name" formControlName="username"
+  <input type="text" placeholder="Email" formControlName="email"
  />
-  <div *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid" class="error">
+  <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="error">
     Username is required
   </div>
 
@@ -15,7 +16,40 @@
   
   <input type="submit" value="Log In" />
   <div class="links">
-    <a href="#">Forgot password</a>
-    <a href="#">Register</a>
+    <a>Forgot password</a>
+    <a (click)="toggleMode()">Register</a>
+  </div>
+</form>
+
+<!-- Signupform here -->
+ <form *ngIf="!isLoginMode" [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()" class="login">
+  <h2>Sign up Account</h2>
+
+  <input type="text" placeholder="User Name" formControlName="username" />
+  <div *ngIf="signupForm.get('username')?.touched && signupForm.get('username')?.invalid" class="error">
+    Username is required (min 3 characters)
+  </div>
+
+  <input type="email" placeholder="Email" formControlName="email" />
+  <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid" class="error">
+    Valid email is required
+  </div>
+
+  <input type="password" placeholder="Password" formControlName="password" />
+  <div *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.invalid" class="error">
+    Password must be at least 6 characters
+  </div>
+  <select formControlName="userType">
+  <option value="" disabled selected hidden>User Type</option>
+  <option value="client">Client</option>
+  <option value="advocate">Advocate</option>
+</select>
+  <div *ngIf="signupForm.get('userType')?.touched && signupForm.get('userType')?.invalid" class="error">
+    Please select a user type
+  </div>
+
+  <input type="submit" value="Sign Up" />
+  <div class="links">
+    <a (click)="toggleMode()">Back to Login</a>
   </div>
 </form>

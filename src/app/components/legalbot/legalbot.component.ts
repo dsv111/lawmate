@@ -34,8 +34,8 @@ export class LegalBotComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
   botResponse = '';
-
-  chatHistory: { question: string; response: string; timestamp: string; showMenu: boolean }[] = [];
+loggedUserDetails:any;
+  chatHistory: { question: string; response: string; timestamp: string; showMenu: boolean,userId: string }[] = [];
   chatMessages: { role: string; text: string }[] = [];
 
   constructor(private geminiService: GeminiService) {}
@@ -43,12 +43,21 @@ export class LegalBotComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const savedHistory = localStorage.getItem('chatHistory');
     this.chatHistory = savedHistory ? JSON.parse(savedHistory) : [];
+        
+    // Added: Load user details from sessionStorage
+    const userDetails = localStorage.getItem('loggedUserObject');
+    this.loggedUserDetails = userDetails ? JSON.parse(userDetails) :[]
+
+    this.chatHistory = this.chatHistory.filter(item => item.userId === this.loggedUserDetails?.email);
+
     this.chatMessages.push({ role: 'model', text: 'Hello! How can I assist you with legal questions today?' });
     await this.geminiService.initChat();
   }
 
   async askLegalBot() {
     const question = this.userQuestion.trim();
+
+        // Added: Check if user is logged in
     if (!question) {
       this.errorMessage = 'Please enter a legal question.';
       return;
@@ -81,7 +90,8 @@ export class LegalBotComponent implements OnInit {
         question,
         response: formattedResponse,
         timestamp: new Date().toISOString(),
-        showMenu: false
+        showMenu: false,
+        userId: this.loggedUserDetails.email
       });
       localStorage.setItem('chatHistory', JSON.stringify(this.chatHistory));
 

@@ -3,32 +3,44 @@
   <!-- Left: History Panel -->
   <aside class="history-panel">
     <h4>🕘 History</h4>
-    <ul>
-      <li *ngFor="let item of chatHistory" class="history-item">
-        <mat-card class="history-btn">
-          <div class="card-content">
-            <div class="question-text" (click)="historyPushToChat(item)">
-              {{ item.question }}
-            </div>
-            <div class="options-container">
-              <button mat-icon-button (click)="toggleMenu(item)">
-                <mat-icon style="font-size: 18px;">more_vert</mat-icon>
-              </button>
-              <div class="options-menu" *ngIf="item.showMenu">
-                <button mat-raised-button color="warn" (click)="removeHistory(item)">Remove</button>
+
+    <!-- ✅ Wrap history list for scrolling -->
+    <div class="history-scroll">
+      <ul>
+        <li *ngFor="let item of chatHistory" class="history-item">
+          <mat-card class="history-btn">
+            <div class="card-content">
+              <div class="question-text truncate" (click)="historyPushToChat(item)">
+                {{ item.question }}
+              </div>
+              <div class="options-container">
+                <mat-icon style="font-size: 16px;" (click)="toggleMenu(item)">more_vert</mat-icon>
+
+                <!-- <div class="options-menu" *ngIf="item.showMenu">
+                  <button mat-raised-button (click)="removeHistory(item)"> 
+                    <mat-icon (click)="toggleMenu(item)">delete</mat-icon>Remove</button>
+                </div> -->
+                <div class="options-menu" *ngIf="item.showMenu">
+                  <button mat-raised-button class="remove-btn" (click)="removeHistory(item)">
+                    <mat-icon>delete</mat-icon>
+                    Remove
+                  </button>
+                </div>
+
               </div>
             </div>
-          </div>
-        </mat-card>
-      </li>
-    </ul>
+          </mat-card>
+        </li>
+      </ul>
+    </div>
   </aside>
 
   <!-- Right: Chat Area -->
   <div class="chat-section">
     <h1 class="page-title">🤖 LegalBot <span>– Your Virtual Legal Assistant</span></h1>
     <p class="page-description">
-      Ask questions, get legal guidance, and explore legal resources. LegalBot is here to help you understand your rights and obligations.
+      Ask questions, get legal guidance, and explore legal resources. LegalBot is here to help you understand your
+      rights and obligations.
     </p>
 
     <mat-card class="chat-card">
@@ -36,7 +48,8 @@
       <mat-card-content>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Type your legal question</mat-label>
-          <textarea matInput [(ngModel)]="userQuestion" (keydown)="handleKeyDown($event)" (input)="autoResize($event)" rows="1" placeholder="E.g. What is FIR process in India?"></textarea>
+          <textarea matInput [(ngModel)]="userQuestion" (keydown)="handleKeyDown($event)" (input)="autoResize($event)"
+            rows="1" placeholder="E.g. What is FIR process in India?"></textarea>
         </mat-form-field>
 
         <div class="action-row">

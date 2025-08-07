@@ -7,32 +7,32 @@
   <div class="nav-links">
     <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Home</a>
     <a routerLink="/about" routerLinkActive="active-link">About</a>
-    <a routerLink="/legalbot" routerLinkActive="active-link">LegalBot</a>
-    <a routerLink="/doc-generator" routerLinkActive="active-link">Document Generator</a>
-    <a routerLink="/lawyer-connect" routerLinkActive="active-link">Lawyer Connect</a>
-    <!-- <a routerLink="/signin" routerLinkActive="active-link" *ngIf="!isLoggedIn"><mat-icon>person</mat-icon> Sign In</a> -->
-<a routerLink="/signin" routerLinkActive="active-link" *ngIf="!isLoggedIn" class="signin-link">
-  Sign In
-  <mat-icon>person</mat-icon>
-</a>
 
-    <!-- Profile icon or Signout -->
-    <div *ngIf="isLoggedIn" class="user-icon-wrapper" (mouseenter)="onHover()" (mouseleave)="onLeave()">
-      <img src="assets/advocate.png" alt="User" class="user-icon" />
+    <!-- Show only when user is logged in -->
+    <ng-container *ngIf="isLoggedIn(); else guestLinks">
+      <a routerLink="/legalbot" routerLinkActive="active-link">LegalBot</a>
+      <a routerLink="/doc-generator" routerLinkActive="active-link">Document-Generator</a>
 
-      <!-- Dropdown -->
-      <div class="dropdown" *ngIf="showDropdown">
+      <!-- Show Lawyer-Connect only if NOT advocate -->
+      <a *ngIf="userType() !== 'advocate'" routerLink="/lawyer-connect" routerLinkActive="active-link">
+        Lawyer-Connect
+      </a>
 
-        <a routerLink="/profile" routerLinkActive="active-link">
-          Profile
-        </a>
-        <a routerLink="/signin" routerLinkActive="active-link">
-          Log out
-        </a>
+      <div class="user-icon-wrapper" (mouseenter)="onHover()" (mouseleave)="onLeave()">
+        <img src="assets/advocate.png" alt="User" class="user-icon" />
+        <div class="dropdown" *ngIf="showDropdown">
+          <a routerLink="/profile" routerLinkActive="active-link">Profile</a>
+          <a (click)="logOut()">Log out</a>
+        </div>
       </div>
-    </div>
+    </ng-container>
 
-
-
+    <!-- Guest links (shown only when not logged in) -->
+    <ng-template #guestLinks>
+      <a routerLink="/signin" routerLinkActive="active-link" class="signin-link">
+        Sign In
+        <mat-icon>person</mat-icon>
+      </a>
+    </ng-template>
   </div>
 </nav>

@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: center; /* Horizontally center the mat-card */
+  align-items: center; /* Vertically center the mat-card */
+  min-height: 100vh; /* Ensure the container takes the full viewport height */
+  width: 100%; /* Ensure the container spans the full width */
+  margin: 0; /* Remove default margins */
+  padding: 0; /* Remove default padding */
+}
+
+.example-card {
+  width: 50%; /* Keep the card at 50% width as per your previous CSS */
+  max-width: 500px; /* Optional: Limit the card's maximum width for better appearance */
+}
+/* Center the mat-card-image */
+mat-card img[mat-card-image] {
+  display: block; /* Ensure the image is a block element for margin centering */
+  margin: 0 auto; /* Horizontally center the image */
+  width: 150px; /* Match your inline width */
+  height: 150px; /* Match your inline height */
+  background-color: white;
+}
+.mat-mdc-card-header,.mat-mdc-card-subtitle {
+  display: flex;
+  justify-content: center; /* Center all header content */
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+}
+.user-section{
+    /* background-color: burlywood; */
+    background-color: BLACK;
+}

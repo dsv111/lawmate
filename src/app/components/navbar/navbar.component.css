@@ -141,3 +141,6 @@ body {
   border-radius: 50%;
   padding-left: 4px;
 }
+a{
+  cursor: pointer;
+}

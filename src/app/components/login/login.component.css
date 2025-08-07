@@ -5,6 +5,9 @@ body {
   font-family: Raleway, sans-serif;
   color: #666;
 }
+a{
+    cursor: pointer;
+}
 .logo {
   margin-left: 70px;
   background-color: black;
@@ -17,7 +20,7 @@ body {
   background: #fff;
   box-shadow: 1px 1px 1px #666;
 }
-.login input {
+.login input,select {
   width: 100%;
   display: block;
   box-sizing: border-box;
@@ -113,3 +116,5 @@ body {
   font-size: 12px;
   margin: -10px 0 10px;
 }
+
+
