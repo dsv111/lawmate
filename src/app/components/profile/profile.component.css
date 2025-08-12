@@ -31,3 +31,6 @@ mat-card img[mat-card-image] {
     /* background-color: burlywood; */
     background-color: BLACK;
 }
+.details{
+  background-color: white;
+}

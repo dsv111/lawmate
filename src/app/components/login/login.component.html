@@ -35,6 +35,11 @@
     Valid email is required
   </div>
 
+  <input type="text" placeholder="Mobile Number" formControlName="mobileno" autocomplete="off"  />
+  <div *ngIf="signupForm.get('mobileno')?.touched && signupForm.get('mobileno')?.invalid" class="error">
+    Mobile number is required
+  </div>
+
   <input type="password" placeholder="Password" formControlName="password" autocomplete="new-password"  />
   <div *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.invalid" class="error">
     Password must be at least 6 characters
