@@ -13,6 +13,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavbarComponent {
   showDropdown = false;
+  isMenuOpen = false;
+
   loggedUserType: string | null = null;
     private authService = inject(AuthService);
 
@@ -29,7 +31,13 @@ export class NavbarComponent {
       this.loggedUserType = user?.userType || null;
     }
   }
+toggleMenu() {  
+  this.isMenuOpen = !this.isMenuOpen;
+}
 
+closeMenu() {
+  this.isMenuOpen = false;
+}
   onHover() {
     this.showDropdown = true;
   }

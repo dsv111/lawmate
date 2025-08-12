@@ -4,24 +4,30 @@
     <strong class="brand">Lawmate</strong>
   </div>
 
-  <div class="nav-links">
-    <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-    <a routerLink="/about" routerLinkActive="active-link">About</a>
+  <!-- Mobile Menu Toggle -->
+  <button class="menu-toggle" (click)="toggleMenu()">
+    &#9776;
+  </button>
+
+  <!-- Nav Links with show class binding -->
+  <div class="nav-links" [class.show]="isMenuOpen">
+    <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Home</a>
+    <a routerLink="/about" routerLinkActive="active-link" (click)="closeMenu()">About</a>
 
     <!-- Show only when user is logged in -->
     <ng-container *ngIf="isLoggedIn(); else guestLinks">
-      <a routerLink="/legalbot" routerLinkActive="active-link">LegalBot</a>
-      <a routerLink="/doc-generator" routerLinkActive="active-link">Document-Generator</a>
+      <a routerLink="/legalbot" routerLinkActive="active-link" (click)="closeMenu()">LegalBot</a>
+      <a routerLink="/doc-generator" routerLinkActive="active-link" (click)="closeMenu()">Document-Generator</a>
 
       <!-- Show Lawyer-Connect only if NOT advocate -->
-      <a *ngIf="userType() !== 'advocate'" routerLink="/lawyer-connect" routerLinkActive="active-link">
+      <a *ngIf="userType() !== 'advocate'" routerLink="/lawyer-connect" routerLinkActive="active-link" (click)="closeMenu()">
         Lawyer-Connect
       </a>
 
       <div class="user-icon-wrapper" (mouseenter)="onHover()" (mouseleave)="onLeave()">
         <img src="assets/advocate.png" alt="User" class="user-icon" />
         <div class="dropdown" *ngIf="showDropdown">
-          <a routerLink="/profile" routerLinkActive="active-link">Profile</a>
+          <a routerLink="/profile" routerLinkActive="active-link" (click)="closeMenu()">Profile</a>
           <a (click)="logOut()">Log out</a>
         </div>
       </div>
@@ -29,7 +35,7 @@
 
     <!-- Guest links (shown only when not logged in) -->
     <ng-template #guestLinks>
-      <a routerLink="/signin" routerLinkActive="active-link" class="signin-link">
+      <a routerLink="/signin" routerLinkActive="active-link" class="signin-link" (click)="closeMenu()">
         Sign In
         <mat-icon>person</mat-icon>
       </a>
