@@ -19,13 +19,18 @@
       @if(userDetails?.userType == 'advocate'){
       <small><span style="font-size: 10px;">Ratting:</span> <b> *****</b></small>
       }
+      <small><span style="font-size: 10px;">Contact:</span> <b> {{userDetails?.email}}</b></small>
+      <small><span style="font-size: 10px;">Password:</span> <b> {{userDetails?.password}}</b></small>
     </mat-card-header>
     <mat-card-content>
       <p>
-        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-        bred for hunting.
-      </p>
+  This profile contains the basic details of the registered user. 
+  Clients can connect with advocates to seek legal advice, 
+  while advocates can showcase their expertise and provide assistance 
+  in various legal matters. Please ensure your information is 
+  up-to-date for better communication and service.
+</p>
+
     </mat-card-content>
     <mat-card-actions>
       <!-- <button matButton>LIKE</button>
