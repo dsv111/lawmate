@@ -66,8 +66,8 @@ export class LoginComponent {
     }
 
     const loginData = this.loginForm.value;
-    const storedSignup = sessionStorage.getItem('SignupDetails');
-
+    const storedSignup = localStorage.getItem('SignupDetails');
+ 
     if (!storedSignup) {
       this.snackBar.open('Please sign up before logging in', 'Close', {
         duration: 3000,
@@ -115,8 +115,9 @@ export class LoginComponent {
 
   onSignupSubmit() {
     if (this.signupForm.invalid) return;
-
+debugger;
     const signupData = this.signupForm.value;
+  
     const newEmail = signupData.email.toLowerCase();
     let users: User[] = [];
 
@@ -147,7 +148,7 @@ export class LoginComponent {
     }
 
     users.push(signupData);
-    sessionStorage.setItem('SignupDetails', JSON.stringify(users));
+    localStorage.setItem('SignupDetails', JSON.stringify(users));
 
     this.snackBar.open('Signup successful!', 'Close', {
       duration: 3000,

@@ -48,6 +48,7 @@ closeMenu() {
 
   logOut() {
     this.authService.clearUser();
+    sessionStorage.removeItem('SignupDetails');
     this.router.navigate(['/signin']);
   }
 }

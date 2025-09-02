@@ -9,6 +9,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { GeminiService } from '../../services/gemini.service';
+// @ts-ignore
+import * as mammoth from "mammoth";
+import * as pdfjsLib from "pdfjs-dist";
+
 
 @Component({
   selector: 'app-legalbot',
@@ -157,5 +161,62 @@ loggedUserDetails:any;
     ];
     this.botResponse = '';
     this.userQuestion = '';
+  }
+
+  
+  // ✅ Extract text from PDF
+async onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (!file) return;
+
+    const fileType = file.type;
+
+    try {
+      let extractedText = "";
+
+      if (fileType === "application/pdf") {
+        extractedText = await this.extractTextFromPDF(file);
+      } else if (
+        fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        fileType === "application/msword"
+      ) {
+        extractedText = await this.extractTextFromWord(file);
+      } else if (fileType === "text/plain") {
+        extractedText = await file.text();
+      } else {
+        alert("Unsupported file type. Please upload PDF, DOCX, or TXT.");
+        return;
+      }
+
+      // ✅ Show extracted text in console
+      console.log("Extracted Text:", extractedText);
+
+      // ✅ Put extracted text into chatbot input
+      this.userQuestion = extractedText;
+
+    } catch (err) {
+      console.error("Error reading file:", err);
+      alert("Failed to read file. Please try again.");
+    }
+  }
+
+  async extractTextFromPDF(file: File): Promise<string> {
+    const pdfData = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+    let text = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      text += content.items.map((s: any) => s.str).join(" ") + "\n";
+    }
+
+    return text.trim();
+  }
+
+  async extractTextFromWord(file: File): Promise<string> {
+    const arrayBuffer = await file.arrayBuffer();
+    const result = await mammoth.extractRawText({ arrayBuffer });
+    return result.value.trim();
   }
 }
