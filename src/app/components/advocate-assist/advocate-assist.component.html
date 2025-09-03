@@ -1,0 +1,35 @@
+<div class="assist-container container">
+  <h1 class="page-title">⚖️ Advocate Assist</h1>
+  <p class="page-subtitle">Your AI Senior Mentor – guiding junior lawyers like a seasoned advocate.</p>
+
+  <mat-card class="assist-card">
+    <mat-card-title>Enter Case Details</mat-card-title>
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Case Details</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="userCaseDetails"
+          rows="5"
+          placeholder="Paste case facts, FIR details, or client brief..."
+        ></textarea>
+      </mat-form-field>
+
+      <div class="action-row">
+        <button mat-raised-button color="primary" (click)="askMentor()">Get Mentor Advice</button>
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="isLoading" class="loading-section">
+        <ngx-skeleton-loader count="3" appearance="line"></ngx-skeleton-loader>
+        <p>Analyzing case with senior advocate perspective...</p>
+      </div>
+
+      <!-- Response -->
+      <div #responseArea *ngIf="botResponse && !isLoading" class="response-section">
+        <h3>🧑‍⚖️ Senior Mentor Analysis</h3>
+        <p [innerHTML]="botResponse"></p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

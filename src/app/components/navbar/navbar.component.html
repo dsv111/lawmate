@@ -17,6 +17,7 @@
     <!-- Show only when user is logged in -->
     <ng-container *ngIf="isLoggedIn(); else guestLinks">
       <a routerLink="/legalbot" routerLinkActive="active-link" (click)="closeMenu()">LegalBot</a>
+      <a routerLink="/advo-assist" routerLinkActive="active-link" (click)="closeMenu()">Advocate Assist</a>
       <a routerLink="/doc-generator" routerLinkActive="active-link" (click)="closeMenu()">Document-Generator</a>
 
       <!-- Show Lawyer-Connect only if NOT advocate -->

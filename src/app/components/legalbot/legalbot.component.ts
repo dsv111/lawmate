@@ -12,6 +12,10 @@ import { GeminiService } from '../../services/gemini.service';
 // @ts-ignore
 import * as mammoth from "mammoth";
 import * as pdfjsLib from "pdfjs-dist";
+// import * as pdfjsLib from "pdfjs-dist/webpack";
+
+import Tesseract from "tesseract.js";
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
 
 
 @Component({
@@ -164,16 +168,14 @@ loggedUserDetails:any;
   }
 
   
-  // ✅ Extract text from PDF
-async onFileSelected(event: any) {
+  async onFileSelected(event: any) {
     const file: File = event.target.files[0];
     if (!file) return;
 
     const fileType = file.type;
+    let extractedText = "";
 
     try {
-      let extractedText = "";
-
       if (fileType === "application/pdf") {
         extractedText = await this.extractTextFromPDF(file);
       } else if (
@@ -183,15 +185,17 @@ async onFileSelected(event: any) {
         extractedText = await this.extractTextFromWord(file);
       } else if (fileType === "text/plain") {
         extractedText = await file.text();
+      } else if (fileType.startsWith("image/")) {
+        extractedText = await this.extractTextFromImage(file);
       } else {
-        alert("Unsupported file type. Please upload PDF, DOCX, or TXT.");
+        alert("Unsupported file type. Please upload PDF, DOCX, TXT, or Image.");
         return;
       }
 
-      // ✅ Show extracted text in console
+      // ✅ Log extracted text
       console.log("Extracted Text:", extractedText);
 
-      // ✅ Put extracted text into chatbot input
+      // ✅ Fill chatbot input
       this.userQuestion = extractedText;
 
     } catch (err) {
@@ -200,23 +204,63 @@ async onFileSelected(event: any) {
     }
   }
 
-  async extractTextFromPDF(file: File): Promise<string> {
-    const pdfData = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+  // async extractTextFromPDF(file: File): Promise<string> {
+  //   const pdfData = await file.arrayBuffer();
+  //   const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+  //   let text = "";
+  //   for (let i = 1; i <= pdf.numPages; i++) {
+  //     const page = await pdf.getPage(i);
+  //     const content = await page.getTextContent();
+  //     text += content.items.map((s: any) => s.str).join(" ") + "\n";
+  //   }
+  //   return text.trim();
+  // }
+async extractTextFromPDF(file: File): Promise<string> {
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
     let text = "";
 
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
       const content = await page.getTextContent();
-      text += content.items.map((s: any) => s.str).join(" ") + "\n";
+
+      const pageText = content.items
+        .map((item: any) => ("str" in item ? item.str : ""))
+        .join(" ");
+
+      text += pageText + "\n";
     }
 
     return text.trim();
+  } catch (err) {
+    console.error("PDF extraction error:", err);
+    throw new Error("Could not extract text from PDF.");
   }
+}
 
   async extractTextFromWord(file: File): Promise<string> {
     const arrayBuffer = await file.arrayBuffer();
     const result = await mammoth.extractRawText({ arrayBuffer });
     return result.value.trim();
   }
+
+  async extractTextFromImage(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const result = await Tesseract.recognize(reader.result as string, "eng", {
+          logger: m => console.log("OCR progress:", m)
+        });
+        resolve(result.data.text.trim());
+      } catch (error) {
+        reject(error);
+      }
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 }
