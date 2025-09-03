@@ -56,7 +56,7 @@ export class AdvocateAssistComponent implements OnInit {
     }
   }
 
-  // Send case details (typed or extracted from file)
+  // Send case details
   async askMentor() {
     const caseDetails = this.userCaseDetails.trim();
     if (!caseDetails) {
@@ -66,91 +66,66 @@ export class AdvocateAssistComponent implements OnInit {
 
     this.isLoading = true;
     this.errorMessage = '';
-    let formattedResponse = '';
 
     try {
-      // ✅ Use mentor-specific service method
-      const rawResponse = await this.geminiService.sendMentorMessage(
-        caseDetails
+      const rawResponse = await this.geminiService.sendMentorMessage(caseDetails);
+
+      // === Format Response ===
+      let formattedResponse = rawResponse;
+
+      // ------------------ Headings ------------------
+      formattedResponse = formattedResponse.replace(
+        /(Senior Mentor Analysis):?/gi,
+        `<h2 class="text-2xl font-bold text-gray-800 border-b pb-2 mb-3">📋 $1</h2>`
       );
 
-// === Format Response ===
-let formattedResponse = rawResponse;
+      formattedResponse = formattedResponse.replace(
+        /(Relevant Laws\/?Sections?):?/gi,
+        `<h3 class="text-xl font-semibold text-gray-800 border-b pb-2 mt-6 mb-3">⚖️ $1</h3>`
+      );
 
-// ------------------ Headings ------------------
-formattedResponse = formattedResponse.replace(
-  /(Senior Mentor Analysis):?/gi,
-  `<h2 class="text-2xl font-bold text-gray-800 flex items-center border-b pb-2 mb-3">📋 $1</h2>`
-);
+      formattedResponse = formattedResponse.replace(
+        /(Suggested Strategy):?/gi,
+        `<h3 class="text-xl font-semibold text-gray-800 border-b pb-2 mt-6 mb-3">💡 $1</h3>`
+      );
 
-formattedResponse = formattedResponse.replace(
-  /(Relevant Laws\/?Sections?):?/gi,
-  `<h3 class="text-xl font-semibold text-gray-800 flex items-center border-b pb-2 mt-6 mb-3">⚖️ $1</h3>`
-);
+      formattedResponse = formattedResponse.replace(
+        /(Court Preparation Checklist):?/gi,
+        `<h3 class="text-xl font-semibold text-gray-800 border-b pb-2 mt-6 mb-3">📝 $1</h3>`
+      );
 
-formattedResponse = formattedResponse.replace(
-  /(Suggested Strategy):?/gi,
-  `<h3 class="text-xl font-semibold text-gray-800 flex items-center border-b pb-2 mt-6 mb-3">💡 $1</h3>`
-);
+      formattedResponse = formattedResponse.replace(
+        /(Mentor Tip):?/gi,
+        `<h3 class="mt-6 text-lg font-semibold text-blue-700">💡 $1</h3>`
+      );
 
-formattedResponse = formattedResponse.replace(
-  /(Court Preparation Checklist):?/gi,
-  `<h3 class="text-xl font-semibold text-gray-800 flex items-center border-b pb-2 mt-6 mb-3">📝 $1</h3>`
-);
+      // ------------------ Special Formatting ------------------
+      formattedResponse = formattedResponse.replace(
+        /(Option\s*\d+:)/gi,
+        `<strong class="text-gray-900">$1</strong>`
+      );
 
-// ------------------ Special Formatting ------------------
+      formattedResponse = formattedResponse.replace(/\*\*(.*?)\*\*/g, `<strong>$1</strong>`);
+      formattedResponse = formattedResponse.replace(/\*(.*?)\*/g, `<em>$1</em>`);
 
-// Bold "Option 1 / Option 2"
-formattedResponse = formattedResponse.replace(
-  /(Option\s*\d+:)/gi,
-  `<strong class="text-gray-900">$1</strong>`
-);
+      // ------------------ Lists ------------------
+      // Numbered list
+      formattedResponse = formattedResponse.replace(
+        /^(\d+)\.\s+(.*)$/gm,
+        `<ol class="list-decimal list-inside space-y-2"><li class="font-semibold text-gray-900">$2</li></ol>`
+      );
 
-// Bold + italic formatting
-formattedResponse = formattedResponse.replace(/\*\*(.*?)\*\*/g, `<strong>$1</strong>`);
-formattedResponse = formattedResponse.replace(/\*(.*?)\*/g, `<em>$1</em>`);
+      // Bulleted list
+      formattedResponse = formattedResponse.replace(
+        /^[\-\*•]\s+(.*)$/gm,
+        `<ul class="list-disc list-inside space-y-1 ml-6"><li class="text-gray-700">$1</li></ul>`
+      );
 
-// ------------------ List Handling ------------------
+      // ------------------ Paragraphs ------------------
+      formattedResponse = formattedResponse.replace(/\n\s*\n/g, '</p><p>');
+      formattedResponse = `<div class="text-gray-700 leading-relaxed space-y-3">${formattedResponse}</div>`;
 
-// Main numbered list items (1., 2., 3.)
-formattedResponse = formattedResponse.replace(
-  /^(\d+)\.\s*(.*)$/gm,
-  `<li class="font-semibold text-gray-900">$1. $2</li>`
-);
-
-// Sub-points (-, *, •) → bullets
-formattedResponse = formattedResponse.replace(
-  /^[\-\*•]\s*(.*)$/gm,
-  `<li class="ml-6 text-gray-700">• $1</li>`
-);
-
-// Wrap main numbers in <ol>
-formattedResponse = formattedResponse.replace(
-  /(<li class="font-semibold.*<\/li>)/gs,
-  `<ol class="list-decimal list-inside space-y-2">$1</ol>`
-);
-
-// Wrap subpoints in <ul>
-formattedResponse = formattedResponse.replace(
-  /(<li class="ml-6.*<\/li>)/gs,
-  `<ul class="list-disc list-inside space-y-1">$1</ul>`
-);
-
-// ------------------ Mentor Tip ------------------
-formattedResponse = formattedResponse.replace(
-  /^Mentor Tip:/gi,
-  `<h3 class="mt-6 text-lg font-semibold text-blue-700">💡 Mentor Tip</h3>`
-);
-
-// ------------------ Paragraph Handling ------------------
-formattedResponse = formattedResponse.replace(/\n\s*\n/g, '</p><p>');
-formattedResponse = `<div class="text-gray-700 leading-relaxed space-y-3">${formattedResponse}</div>`;
-
-// ------------------ Final Assignment ------------------
-this.botResponse = formattedResponse;
-
-
-
+      this.botResponse = formattedResponse;
       this.scrollToResponse();
     } catch (error: any) {
       this.errorMessage =

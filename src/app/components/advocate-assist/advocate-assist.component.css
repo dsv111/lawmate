@@ -8,12 +8,14 @@
 .page-title {
   font-size: 28px;
   font-weight: bold;
+  text-shadow: 1px 1px #64727e;
   color: #1e88e5;
 }
 
 .page-subtitle {
   font-size: 16px;
-  color: #555;
+  text-shadow: 1px 1px #2125291f;
+  color: #212529;
   margin-bottom: 15px;
 }
 
@@ -75,7 +77,8 @@
 }
 
 .response-box strong {
-  color: #b71c1c; /* emphasis */
+  color: #b71c1c;
+  /* emphasis */
 }
 
 .response-box {
@@ -85,12 +88,11 @@
 
 .response-box p,
 .response-box div {
-  margin: 4px 0; /* very small gap between text blocks */
+  margin: 4px 0;
+  /* very small gap between text blocks */
 }
 
 .response-box br {
-  line-height: 1.2; /* keeps line breaks tight */
+  line-height: 1.2;
+  /* keeps line breaks tight */
 }
-
-
-
