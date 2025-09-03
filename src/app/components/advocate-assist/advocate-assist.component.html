@@ -3,8 +3,9 @@
   <p class="page-subtitle">Your AI Senior Mentor – guiding junior lawyers like a seasoned advocate.</p>
 
   <mat-card class="assist-card">
-    <mat-card-title>Enter Case Details</mat-card-title>
+    <mat-card-title>Provide Case Details</mat-card-title>
     <mat-card-content>
+      <!-- Text Input -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Case Details</mat-label>
         <textarea
@@ -14,6 +15,20 @@
           placeholder="Paste case facts, FIR details, or client brief..."
         ></textarea>
       </mat-form-field>
+
+      <!-- File Upload -->
+      <div class="file-upload">
+        <label for="fileInput" class="upload-label">
+          <mat-icon>attach_file</mat-icon>
+          Attach Case File (PDF, DOCX, TXT)
+        </label>
+        <input
+          type="file"
+          id="fileInput"
+          hidden
+          (change)="onFileChange($event)"
+        />
+      </div>
 
       <div class="action-row">
         <button mat-raised-button color="primary" (click)="askMentor()">Get Mentor Advice</button>
@@ -26,10 +41,11 @@
       </div>
 
       <!-- Response -->
-      <div #responseArea *ngIf="botResponse && !isLoading" class="response-section">
-        <h3>🧑‍⚖️ Senior Mentor Analysis</h3>
-        <p [innerHTML]="botResponse"></p>
-      </div>
+      <!-- Response -->
+<div #responseArea *ngIf="botResponse && !isLoading" class="response-section response-box">
+  <div [innerHTML]="botResponse"></div>
+</div>
+
     </mat-card-content>
   </mat-card>
 </div>

@@ -20,15 +20,16 @@ import { GeminiService } from '../../services/gemini.service';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
   ],
   templateUrl: './advocate-assist.component.html',
-  styleUrls: ['./advocate-assist.component.css']
+  styleUrls: ['./advocate-assist.component.css'],
 })
 export class AdvocateAssistComponent implements OnInit {
   @ViewChild('responseArea') responseArea!: ElementRef;
 
   userCaseDetails = '';
+  selectedFile: File | null = null;
   isLoading = false;
   botResponse = '';
   errorMessage = '';
@@ -39,6 +40,23 @@ export class AdvocateAssistComponent implements OnInit {
     await this.geminiService.initChat();
   }
 
+  // Handle file selection
+  async onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      try {
+        this.userCaseDetails = await this.geminiService.extractTextFromFile(
+          this.selectedFile
+        );
+      } catch (err) {
+        this.errorMessage =
+          'Failed to read the uploaded file. Please try again.';
+      }
+    }
+  }
+
+  // Send case details (typed or extracted from file)
   async askMentor() {
     const caseDetails = this.userCaseDetails.trim();
     if (!caseDetails) {
@@ -51,18 +69,92 @@ export class AdvocateAssistComponent implements OnInit {
     let formattedResponse = '';
 
     try {
-      const rawResponse = await this.geminiService.sendMessage(
-        `Act as Senior Mentor.\nCase Details:\n${caseDetails}`
+      // ✅ Use mentor-specific service method
+      const rawResponse = await this.geminiService.sendMentorMessage(
+        caseDetails
       );
 
-      formattedResponse = rawResponse
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>');
+// === Format Response ===
+let formattedResponse = rawResponse;
 
-      this.botResponse = formattedResponse;
+// ------------------ Headings ------------------
+formattedResponse = formattedResponse.replace(
+  /(Senior Mentor Analysis):?/gi,
+  `<h2 class="text-2xl font-bold text-gray-800 flex items-center border-b pb-2 mb-3">📋 $1</h2>`
+);
+
+formattedResponse = formattedResponse.replace(
+  /(Relevant Laws\/?Sections?):?/gi,
+  `<h3 class="text-xl font-semibold text-gray-800 flex items-center border-b pb-2 mt-6 mb-3">⚖️ $1</h3>`
+);
+
+formattedResponse = formattedResponse.replace(
+  /(Suggested Strategy):?/gi,
+  `<h3 class="text-xl font-semibold text-gray-800 flex items-center border-b pb-2 mt-6 mb-3">💡 $1</h3>`
+);
+
+formattedResponse = formattedResponse.replace(
+  /(Court Preparation Checklist):?/gi,
+  `<h3 class="text-xl font-semibold text-gray-800 flex items-center border-b pb-2 mt-6 mb-3">📝 $1</h3>`
+);
+
+// ------------------ Special Formatting ------------------
+
+// Bold "Option 1 / Option 2"
+formattedResponse = formattedResponse.replace(
+  /(Option\s*\d+:)/gi,
+  `<strong class="text-gray-900">$1</strong>`
+);
+
+// Bold + italic formatting
+formattedResponse = formattedResponse.replace(/\*\*(.*?)\*\*/g, `<strong>$1</strong>`);
+formattedResponse = formattedResponse.replace(/\*(.*?)\*/g, `<em>$1</em>`);
+
+// ------------------ List Handling ------------------
+
+// Main numbered list items (1., 2., 3.)
+formattedResponse = formattedResponse.replace(
+  /^(\d+)\.\s*(.*)$/gm,
+  `<li class="font-semibold text-gray-900">$1. $2</li>`
+);
+
+// Sub-points (-, *, •) → bullets
+formattedResponse = formattedResponse.replace(
+  /^[\-\*•]\s*(.*)$/gm,
+  `<li class="ml-6 text-gray-700">• $1</li>`
+);
+
+// Wrap main numbers in <ol>
+formattedResponse = formattedResponse.replace(
+  /(<li class="font-semibold.*<\/li>)/gs,
+  `<ol class="list-decimal list-inside space-y-2">$1</ol>`
+);
+
+// Wrap subpoints in <ul>
+formattedResponse = formattedResponse.replace(
+  /(<li class="ml-6.*<\/li>)/gs,
+  `<ul class="list-disc list-inside space-y-1">$1</ul>`
+);
+
+// ------------------ Mentor Tip ------------------
+formattedResponse = formattedResponse.replace(
+  /^Mentor Tip:/gi,
+  `<h3 class="mt-6 text-lg font-semibold text-blue-700">💡 Mentor Tip</h3>`
+);
+
+// ------------------ Paragraph Handling ------------------
+formattedResponse = formattedResponse.replace(/\n\s*\n/g, '</p><p>');
+formattedResponse = `<div class="text-gray-700 leading-relaxed space-y-3">${formattedResponse}</div>`;
+
+// ------------------ Final Assignment ------------------
+this.botResponse = formattedResponse;
+
+
+
       this.scrollToResponse();
     } catch (error: any) {
-      this.errorMessage = error.message || 'Failed to get a response. Please try again.';
+      this.errorMessage =
+        error.message || 'Failed to get a response. Please try again.';
     } finally {
       this.isLoading = false;
     }
