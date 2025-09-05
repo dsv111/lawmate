@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GeminiService } from '../../services/gemini.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +14,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-doc-generator',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatButtonModule,MatTooltipModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatButtonModule,
+    MatTooltipModule,
+  ],
   templateUrl: './doc-generator.component.html',
   styleUrls: ['./doc-generator.component.css'],
 })
@@ -24,8 +36,7 @@ export class DocGeneratorComponent {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private geminiService: GeminiService, private fb: FormBuilder) {
-  }
+  constructor(private geminiService: GeminiService, private fb: FormBuilder) {}
 
   async generateFieldRequest() {
     this.errorMessage = '';
@@ -60,10 +71,12 @@ Return a JSON array of required fields for the user to provide, like this:
         }
         this.dynamicForm = this.fb.group(formControls);
       } else {
-        this.errorMessage = 'No valid fields returned. Try again with a more specific description.';
+        this.errorMessage =
+          'No valid fields returned. Try again with a more specific description.';
       }
     } catch (err) {
-      this.errorMessage = 'Something went wrong while fetching required fields.';
+      this.errorMessage =
+        'Something went wrong while fetching required fields.';
       console.error(err);
     } finally {
       this.isLoading = false;
@@ -105,27 +118,26 @@ Format it as a professional legal document.
     }
   }
 
-formatMarkdown(text: string): string {
-  // Detect NOTE or Disclaimer and wrap in small text
-  const smallNoteRegex = /(NOTE:.*?$|Disclaimer:.*?$)/ims;
+  formatMarkdown(text: string): string {
+    // Detect NOTE or Disclaimer and wrap in small text
+    const smallNoteRegex = /(NOTE:.*?$|Disclaimer:.*?$)/ims;
 
-  let formatted = text.replace(smallNoteRegex, (match) => {
-    return `<span style="font-size:8px; color:gray;">${match}</span>`;
-  });
+    let formatted = text.replace(smallNoteRegex, (match) => {
+      return `<span style="font-size:8px; color:gray;">${match}</span>`;
+    });
 
-  // Apply basic markdown formatting
-  return (
-    '<p>' +
-    formatted
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/\[(.*?)\]/g, '<span class="placeholder">[$1]</span>')
-      .replace(/\n{2,}/g, '</p><p>')
-      .replace(/\n/g, '<br/>') +
-    '</p>'
-  );
-}
-
+    // Apply basic markdown formatting
+    return (
+      '<p>' +
+      formatted
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\[(.*?)\]/g, '<span class="placeholder">[$1]</span>')
+        .replace(/\n{2,}/g, '</p><p>')
+        .replace(/\n/g, '<br/>') +
+      '</p>'
+    );
+  }
 
   extractJsonArray(text: string): any[] {
     const match = text.match(/\[.*\]/s);

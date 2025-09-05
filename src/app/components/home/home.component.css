@@ -17,7 +17,8 @@
   font-size: 1.2rem;
   max-width: 680px;
   margin: 0 auto 3rem auto;
-  color: #424242;
+  text-shadow: 1px 1px #2125291f;
+  color: #212529;
   line-height: 1.7;
 }
 

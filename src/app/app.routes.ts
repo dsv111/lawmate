@@ -11,7 +11,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'legalbot', component: LegalBotComponent },
-  { path: 'advo-assist', component: AdvocateAssistComponent },
+  { path: 'advo-mentor', component: AdvocateAssistComponent },
   { path: 'doc-generator', component: DocGeneratorComponent },
   { path: 'lawyer-connect', component: LawyerConnectComponent },
   { path: 'signin', component: LoginComponent },

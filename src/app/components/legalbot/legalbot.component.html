@@ -11,7 +11,7 @@
           <mat-card class="history-btn">
             <div class="card-content">
               <div class="question-text truncate" (click)="historyPushToChat(item)">
-                {{ item.question }}
+                {{ item.question | titlecase }}
               </div>
               <div class="options-container">
                 <mat-icon style="font-size: 16px;" (click)="toggleMenu(item)">more_vert</mat-icon>
@@ -37,7 +37,7 @@
 
   <!-- Right: Chat Area -->
   <div class="chat-section">
-    <h1 class="page-title">🤖 LegalBot <span>– Your Virtual Legal Assistant</span></h1>
+    <h2 class="page-title"><img src="assets/artificial-intelligence.gif" width="60" height="60" /> LegalBot <span style="font-size: 20px;">– Your Virtual Legal Assistant</span></h2>
     <p class="page-description">
       Ask questions, get legal guidance, and explore legal resources. LegalBot is here to help you understand your
       rights and obligations.
@@ -46,14 +46,22 @@
     <mat-card class="chat-card">
       <mat-card-title>Start Chatting</mat-card-title>
       <mat-card-content>
-        <!-- ✅ Added File Upload -->
-        <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.txt,.rtf,image" />
-
-        <mat-form-field appearance="outline" class="full-width">
+       
+        <mat-form-field appearance="outline" class="full-width mt-2">
           <mat-label>Type your legal question</mat-label>
           <textarea matInput [(ngModel)]="userQuestion" (keydown)="handleKeyDown($event)" (input)="autoResize($event)"
             rows="1" placeholder="E.g. What is FIR process in India?"></textarea>
         </mat-form-field>
+         <!-- ✅ Added File Upload -->
+        <!-- <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.txt,.rtf,image" /> -->
+ <!-- Left: File Upload -->
+        <div class="file-upload">
+          <label for="fileInput" class="upload-label flex items-center gap-2 cursor-pointer">
+            <mat-icon>attach_file</mat-icon>
+            Attach File (DOCX, TXT)
+          </label>
+          <input type="file" id="fileInput" hidden (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.txt,.rtf,image"/>
+        </div>
 
         <div class="action-row">
           <img *ngIf="botResponse && !isLoading" src="assets/law.gif" class="response-icon" width="40" height="40" />

@@ -1,7 +1,10 @@
 <section class="homepage">
-  <h1 class="headline">⚖️ LawMate<span style="font-size: 20px;"> - Justice at Your Fingertips</span></h1>
+  <h1 class="headline" style="text-shadow: 1px 1px #dee2e6;"> <img src="assets/balance.gif" width="60" height="60" />
+    LawMate<span style="font-size: 20px;"> - Justice at Your
+      Fingertips</span></h1>
   <p class="subtext">
-    Your AI-powered legal assistant helping every Indian citizen understand their rights, resolve issues, and get expert help.
+    Your AI-powered legal assistant helping every Indian citizen understand their rights, resolve issues, and get expert
+    help.
   </p>
 
   <section class="features">
@@ -11,6 +14,14 @@
       </mat-card-header>
       <mat-card-content>
         Chat with AI to understand your legal issue in simple terms.
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="feature-card mat-elevation-z3">
+      <mat-card-header>
+        <mat-card-title>🧠 Advocate Mentor</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Your AI Senior Mentor – guiding junior lawyers like a seasoned advocate.
       </mat-card-content>
     </mat-card>
 
@@ -35,10 +46,10 @@
 
   <div class="actions">
     <button (click)="routeRespectingPage('legal-bot')" mat-raised-button color="primary">Start LegalBot</button>
-    <button (click)="routeRespectingPage('doc-gen')" mat-raised-button color="accent">Try Document Generator</button>
+    <button (click)="routeRespectingPage('advocate-mentor')" mat-raised-button color="primary">Try Advocate
+      Mentor</button> <button (click)="routeRespectingPage('doc-gen')" mat-raised-button color="accent">Try Document
+      Generator</button>
     <button (click)="routeRespectingPage('book-lawer')" mat-raised-button color="warn">Book a Lawyer</button>
-    <!-- <a routerLink="/legalbot"><button mat-raised-button color="primary">Start LegalBot</button></a>
-    <a routerLink="/doc-generator"><button mat-raised-button color="accent">Try Document Generator</button></a>
-    <a routerLink="/lawyer-connect"><button mat-raised-button color="warn">Book a Lawyer</button></a> -->
+
   </div>
 </section>

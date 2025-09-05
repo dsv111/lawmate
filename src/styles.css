@@ -1,21 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* CHANGED: Replaced indigo-pink.css with azure-blue.css to match angular.json */
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
   padding-top: 70px; /* Match navbar height */
- }
+}
+
+.mat-snack-bar-container.error-snackbar {
+  background-color: #f44336 !important;
+  color: #fff !important;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+}
 .main-content {
   padding-top: 70px;
 }
 
-.success-snackbar {
-  background-color: #4caf50 !important;
+/* CHANGED: Removed duplicate .error-snackbar definition and ::ng-deep, consolidated into a single definition */
+.error-snackbar {
+  background-color: #f44336 !important; /* Kept #f44336 for consistency with Material red */
   color: #fff;
+  font-size: 16px;
+  text-align: center;
   font-weight: bold;
 }
 
-.error-snackbar {
-  background-color: #f44336 !important;
+.success-snackbar {
+  background-color: #4caf50 !important;
   color: #fff;
   font-weight: bold;
 }

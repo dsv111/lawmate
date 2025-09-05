@@ -1,5 +1,7 @@
 <div class="assist-container container">
-  <h1 class="page-title text-3xl font-bold text-gray-800 text-center my-4">⚖️ Advocate Mentor</h1>
+  <h1 class="page-title text-3xl font-bold text-gray-800 text-center my-4">
+    <img src="assets/training.gif" width="60" height="60" /> Advocate Mentor
+  </h1>
   <p class="page-subtitle text-center">Your AI Senior Mentor – guiding junior lawyers like a seasoned advocate.</p>
 
   <mat-card class="assist-card">
@@ -8,43 +10,69 @@
       <!-- Text Input -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Case Details</mat-label>
-        <textarea
-          matInput
-          [(ngModel)]="userCaseDetails"
-          rows="5"
-          placeholder="Paste case facts, FIR details, or client brief..."
-        ></textarea>
+        <textarea matInput [(ngModel)]="userCaseDetails" rows="5"
+          placeholder="Paste case facts, FIR details, or client brief..."></textarea>
       </mat-form-field>
 
-      <!-- File Upload -->
-      <div class="file-upload">
-        <label for="fileInput" class="upload-label">
-          <mat-icon>attach_file</mat-icon>
-          Attach Case File (DOCX, TXT)
-        </label>
-        <input
-          type="file"
-          id="fileInput"
-          hidden
-          (change)="onFileChange($event)"
-        />
+      <!-- File Upload + Button on one row -->
+      <div class="action-container flex items-center justify-between w-full">
+        <div class="file-upload">
+          <label for="fileInput" class="upload-label flex items-center gap-2 cursor-pointer">
+            <mat-icon>attach_file</mat-icon>
+            Attach Case File (DOCX, TXT)
+          </label>
+          <input type="file" id="fileInput" hidden (change)="onFileChange($event)" />
+        </div>
+
+        <div class="action-row">
+          <button mat-raised-button color="primary" (click)="askMentor()">
+            Get Mentor Advice
+          </button>
+        </div>
       </div>
 
-      <div class="action-row">
-        <button mat-raised-button color="primary" (click)="askMentor()">Get Mentor Advice</button>
+      <!-- Loading (analysis or translation) -->
+      <div #loadingArea *ngIf="isLoading" class="loading-section text-center">
+        <ngx-skeleton-loader count="2" appearance="line"></ngx-skeleton-loader>
+        <p>{{ loadingMessage }} <img src="assets/critical-thinking.gif" width="40" height="40" /></p>
       </div>
 
-      <!-- Loading -->
-      <div *ngIf="isLoading" class="loading-section">
-        <ngx-skeleton-loader count="3" appearance="line"></ngx-skeleton-loader>
-        <p>Analyzing case with senior advocate perspective...</p>
+      <!-- Initial / Translated Response -->
+      <div #responseArea *ngIf="botResponse && !isLoading" class="response-section response-box">
+        <div class="language-selector" style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+          <mat-form-field appearance="fill" style="width:220px;">
+            <mat-label>Select Language</mat-label>
+            <mat-select [(ngModel)]="selectedLanguage" (selectionChange)="onLanguageChange()">
+              <mat-option value="en">English</mat-option>
+              <mat-option value="hi">Hindi</mat-option>
+              <mat-option value="te">Telugu</mat-option>
+              <mat-option value="ta">Tamil</mat-option>
+              <mat-option value="kn">Kannada</mat-option>
+              <mat-option value="ml">Malayalam</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Displayed response (translated or original) -->
+        <div [innerHTML]="botResponse"></div>
+
+        <div class="text-center mt-4">
+          <button mat-stroked-button color="primary" type="button" (click)="toggleExtraInfo()" *ngIf="!showExtraInfo">
+            Do you want more info?
+          </button>
+        </div>
       </div>
 
-      <!-- Response -->
-      <!-- Response -->
-<div #responseArea *ngIf="botResponse && !isLoading" class="response-section response-box">
-  <div [innerHTML]="botResponse"></div>
-</div>
+      <!-- Loading for Additional Details -->
+      <div *ngIf="isExtraInfoLoading" class="extra-loading-section text-center">
+        <p>Loading extra insights... <img src="assets/critical-thinking.gif" width="40" height="40" /></p>
+      </div>
+
+      <!-- Additional Details (Separate Section) -->
+      <div #extroInfoArea *ngIf="showExtraInfo" class="extra-info-section mt-4 p-4 border border-gray-300 rounded bg-gray-50">
+        <h4 class="text-lg font-semibold text-gray-800">Additional Details</h4>
+        <div [innerHTML]="extraInfo"></div>
+      </div>
 
     </mat-card-content>
   </mat-card>

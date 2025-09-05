@@ -227,4 +227,36 @@ Always provide the **best, most accurate, and relevant guidance** possible for t
     const result = await mammoth.extractRawText({ arrayBuffer });
     return result.value;
   }
+
+  // 🔹 Translate text to selected language
+  async translateText(text: string, targetLanguage: string): Promise<string> {
+    const languageMap: { [key: string]: string } = {
+      'en': 'English',
+      'hi': 'Hindi',
+      'te': 'Telugu',
+      'ta': 'Tamil',
+      'kn': 'Kannada',
+      'ml': 'Malayalam'
+    };
+
+    const prompt = `
+Translate the following text into ${languageMap[targetLanguage]}. Preserve all HTML tags and formatting (e.g., <h3>, <strong>, <li>, etc.) exactly as they are, only translating the text content within the tags. Do not alter the structure or add new tags.
+
+Text:
+${text}
+`;
+
+    const model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    try {
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      return response.text();
+    } catch (error) {
+      console.error('Error in translation:', error);
+      throw new Error(`Failed to translate to ${languageMap[targetLanguage]}. Please try again.`);
+    }
+  }
+
+
+
 }

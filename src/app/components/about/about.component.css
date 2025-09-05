@@ -13,14 +13,16 @@
 .section-title {
   font-size: 2rem;
   font-weight: 600;
-  color: #3f51b5;
+  color: #1a237e;
   margin-bottom: 1rem;
   text-align: center;
+  text-shadow: 1px 1px #dee2e6;
 }
 
 .section-subtitle {
-  font-size: 1.2rem;
-  color: #555;
+  font-size: 1.1rem;
+  text-shadow: 1px 1px #2125291f;
+  color: #212529;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -69,6 +71,6 @@
   }
 
   .section-subtitle {
-    font-size: 1rem;
+    font-size: 18px;
   }
 }
