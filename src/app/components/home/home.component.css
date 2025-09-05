@@ -49,6 +49,9 @@
   font-size: 1.15rem !important;
   color: #0d47a1;
 }
+.mat-mdc-card-title{
+  text-shadow: 1px 1px #dee2e6 !important;
+}
 
 .mat-card-content {
   font-size: 0.95rem !important;
