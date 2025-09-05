@@ -24,7 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     NgxSkeletonLoaderModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
   ],
   templateUrl: './advocate-assist.component.html',
   styleUrls: ['./advocate-assist.component.css'],
@@ -54,7 +54,10 @@ export class AdvocateAssistComponent implements OnInit {
   // UI loading message
   loadingMessage = '';
 
-  constructor(private geminiService: GeminiService, private snackBar: MatSnackBar) {}
+  constructor(
+    private geminiService: GeminiService,
+    private snackBar: MatSnackBar
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.geminiService.initChat();
@@ -68,9 +71,13 @@ export class AdvocateAssistComponent implements OnInit {
       const fileExtension = file.name.split('.').pop()?.toLowerCase();
 
       if (!['docx', 'txt'].includes(fileExtension || '')) {
-        this.snackBar.open('Invalid file type. Please upload a .docx or .txt file.', 'Close', {
-          duration: 5000
-        });
+        this.snackBar.open(
+          'Invalid file type. Please upload a .docx or .txt file.',
+          'Close',
+          {
+            duration: 5000,
+          }
+        );
         input.value = '';
         this.selectedFile = null;
         return;
@@ -78,9 +85,15 @@ export class AdvocateAssistComponent implements OnInit {
 
       this.selectedFile = file;
       try {
-        this.userCaseDetails = await this.geminiService.extractTextFromFile(this.selectedFile);
+        this.userCaseDetails = await this.geminiService.extractTextFromFile(
+          this.selectedFile
+        );
       } catch (err) {
-        this.snackBar.open('Failed to read the uploaded file. Please try again.', 'Close', { duration: 5000 });
+        this.snackBar.open(
+          'Failed to read the uploaded file. Please try again.',
+          'Close',
+          { duration: 5000 }
+        );
         input.value = '';
         this.selectedFile = null;
       }
@@ -100,11 +113,14 @@ export class AdvocateAssistComponent implements OnInit {
     this.errorMessage = '';
 
     setTimeout(() => {
-      if (this.loadingArea) this.loadingArea.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      if (this.loadingArea)
+        this.loadingArea.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }, 100);
 
     try {
-      const rawResponse = await this.geminiService.sendMentorMessage(caseDetails);
+      const rawResponse = await this.geminiService.sendMentorMessage(
+        caseDetails
+      );
 
       // Format the response into English HTML (original)
       let formattedResponse = rawResponse;
@@ -128,13 +144,34 @@ export class AdvocateAssistComponent implements OnInit {
         /(Mentor Tip):?/gi,
         `<h4 class="mt-6 text-lg font-semibold text-blue-700">💡 $1</h4>`
       );
-      formattedResponse = formattedResponse.replace(/(Option\s*\d+:)/gi, `<strong class="text-gray-900">$1</strong>`);
-      formattedResponse = formattedResponse.replace(/\*\*(.*?)\*\*/g, `<strong>$1</strong>`);
-      formattedResponse = formattedResponse.replace(/\*(.*?)\*/g, `<em>$1</em>`);
-      formattedResponse = formattedResponse.replace(/^(\d+)\.\s+(.*)$/gm, `<li class="font-semibold text-gray-900">$2</li>`);
-      formattedResponse = formattedResponse.replace(/^[\-\*•]\s+(.*)$/gm, `<ul class="list-disc list-inside space-y-1 ml-6"><li class="text-gray-700">$1</li></ul>`);
-      formattedResponse = formattedResponse.replace(/\bPros?:/gi, `<strong class="text-green-700">✅ Pros:</strong>`);
-      formattedResponse = formattedResponse.replace(/\bCons?:/gi, `<strong class="text-red-700">❌ Cons:</strong>`);
+      formattedResponse = formattedResponse.replace(
+        /(Option\s*\d+:)/gi,
+        `<strong class="text-gray-900">$1</strong>`
+      );
+      formattedResponse = formattedResponse.replace(
+        /\*\*(.*?)\*\*/g,
+        `<strong>$1</strong>`
+      );
+      formattedResponse = formattedResponse.replace(
+        /\*(.*?)\*/g,
+        `<em>$1</em>`
+      );
+      formattedResponse = formattedResponse.replace(
+        /^(\d+)\.\s+(.*)$/gm,
+        `<li class="font-semibold text-gray-900">$2</li>`
+      );
+      formattedResponse = formattedResponse.replace(
+        /^[\-\*•]\s+(.*)$/gm,
+        `<ul class="list-disc list-inside space-y-1 ml-6"><li class="text-gray-700">$1</li></ul>`
+      );
+      formattedResponse = formattedResponse.replace(
+        /\bPros?:/gi,
+        `<strong class="text-green-700">✅ Pros:</strong>`
+      );
+      formattedResponse = formattedResponse.replace(
+        /\bCons?:/gi,
+        `<strong class="text-red-700">❌ Cons:</strong>`
+      );
       formattedResponse = formattedResponse.replace(/\n\s*\n/g, '</p><p>');
       formattedResponse = `<div class="text-gray-700 leading-relaxed space-y-3">${formattedResponse}</div>`;
 
@@ -145,14 +182,20 @@ export class AdvocateAssistComponent implements OnInit {
       if (this.selectedLanguage === 'en') {
         this.botResponse = this.originalResponse;
       } else {
-        this.loadingMessage = `🌐 Translating mentor advice into ${this.getLanguageName(this.selectedLanguage)}...`;
+        this.loadingMessage = `🌐 Translating mentor advice into ${this.getLanguageName(
+          this.selectedLanguage
+        )}...`;
         // translate from English original
-        this.botResponse = await this.geminiService.translateText(this.originalResponse, this.selectedLanguage);
+        this.botResponse = await this.geminiService.translateText(
+          this.originalResponse,
+          this.selectedLanguage
+        );
       }
 
       this.scrollToResponse();
     } catch (error: any) {
-      this.errorMessage = error.message || 'Failed to get a response. Please try again.';
+      this.errorMessage =
+        error.message || 'Failed to get a response. Please try again.';
       this.snackBar.open(this.errorMessage, 'Close', { duration: 5000 });
     } finally {
       this.isLoading = false;
@@ -168,25 +211,39 @@ export class AdvocateAssistComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.loadingMessage = `🌐 Translating mentor advice into ${this.getLanguageName(this.selectedLanguage)}...`;
+    this.loadingMessage = `🌐 Translating mentor advice into ${this.getLanguageName(
+      this.selectedLanguage
+    )}...`;
+
+    // Temporarily hide Additional Info while translating
+    const wasExtraInfoVisible = this.showExtraInfo;
+    this.showExtraInfo = false;
 
     const maybeTranslate = async (original: string) => {
       if (!original) return '';
       return this.selectedLanguage === 'en'
         ? original
-        : await this.geminiService.translateText(original, this.selectedLanguage);
+        : await this.geminiService.translateText(
+            original,
+            this.selectedLanguage
+          );
     };
 
     try {
       const [translatedResponse, translatedExtra] = await Promise.all([
         maybeTranslate(this.originalResponse),
-        maybeTranslate(this.originalExtraInfo)
+        maybeTranslate(this.originalExtraInfo),
       ]);
 
       this.botResponse = translatedResponse || '';
       this.extraInfo = translatedExtra || '';
+      // Restore extra info only after translation
+      if (wasExtraInfoVisible && this.extraInfo) {
+        this.showExtraInfo = true;
+      }
     } catch (error: any) {
-      this.errorMessage = error.message || 'Failed to translate content. Please try again.';
+      this.errorMessage =
+        error.message || 'Failed to translate content. Please try again.';
       this.snackBar.open(this.errorMessage, 'Close', { duration: 5000 });
     } finally {
       this.isLoading = false;
@@ -210,7 +267,9 @@ export class AdvocateAssistComponent implements OnInit {
       const additionalPrompt = `
 Based on the following case details: ${this.userCaseDetails}, provide additional information that was not mentioned in the previous mentor advice. Include new insights, such as lesser-known legal considerations, potential risks, or practical tips, without repeating the original content or using the same structure. Present the information in plain paragraphs.
 `;
-      let extraDetails = await this.geminiService.sendMentorMessage(additionalPrompt);
+      let extraDetails = await this.geminiService.sendMentorMessage(
+        additionalPrompt
+      );
 
       // Keep the English original
       extraDetails = extraDetails.replace(/\n\s*\n/g, '<p></p>');
@@ -220,12 +279,17 @@ Based on the following case details: ${this.userCaseDetails}, provide additional
       if (this.selectedLanguage === 'en') {
         this.extraInfo = this.originalExtraInfo;
       } else {
-        this.extraInfo = await this.geminiService.translateText(this.originalExtraInfo, this.selectedLanguage);
+        this.extraInfo = await this.geminiService.translateText(
+          this.originalExtraInfo,
+          this.selectedLanguage
+        );
       }
 
       this.showExtraInfo = true;
     } catch (error: any) {
-      this.errorMessage = error.message || 'Failed to load additional information. Please try again.';
+      this.errorMessage =
+        error.message ||
+        'Failed to load additional information. Please try again.';
       this.snackBar.open(this.errorMessage, 'Close', { duration: 5000 });
     } finally {
       this.isExtraInfoLoading = false;
@@ -235,24 +299,26 @@ Based on the following case details: ${this.userCaseDetails}, provide additional
 
   scrollToResponse(): void {
     setTimeout(() => {
-      if (this.responseArea) this.responseArea.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      if (this.responseArea)
+        this.responseArea.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   }
 
   scrollToExtrInfoResponse(): void {
     setTimeout(() => {
-      if (this.extroInfoArea) this.extroInfoArea.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      if (this.extroInfoArea)
+        this.extroInfoArea.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   }
 
   private getLanguageName(code: string): string {
-    const map: Record<string,string> = {
+    const map: Record<string, string> = {
       en: 'English',
       hi: 'Hindi',
       te: 'Telugu',
       ta: 'Tamil',
       kn: 'Kannada',
-      ml: 'Malayalam'
+      ml: 'Malayalam',
     };
     return map[code] || 'English';
   }

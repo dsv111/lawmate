@@ -69,7 +69,8 @@
       </div>
 
       <!-- Additional Details (Separate Section) -->
-      <div #extroInfoArea *ngIf="showExtraInfo" class="extra-info-section mt-4 p-4 border border-gray-300 rounded bg-gray-50">
+      <div #extroInfoArea *ngIf="showExtraInfo && !isLoading"
+        class="extra-info-section mt-4 p-4 border border-gray-300 rounded bg-gray-50">
         <h4 class="text-lg font-semibold text-gray-800">Additional Details</h4>
         <div [innerHTML]="extraInfo"></div>
       </div>

@@ -3,16 +3,16 @@ import {
   GoogleGenerativeAI,
   Content,
   ChatSession,
-  GenerationConfig
+  GenerationConfig,
 } from '@google/generative-ai';
 import { environment } from '../../environments/environment';
 
 // Import external parsers
-import * as mammoth from 'mammoth';        // For DOCX
-import * as pdfjsLib from 'pdfjs-dist';    // For PDF
+import * as mammoth from 'mammoth'; // For DOCX
+import * as pdfjsLib from 'pdfjs-dist'; // For PDF
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GeminiService {
   private genAI: GoogleGenerativeAI;
@@ -38,68 +38,7 @@ You are LegalBot, an AI assistant specialized in **Indian law**. You must base y
 - Ensure that all responses are consistent with the **Indian Constitution** and Indian law.
 `;
 
-  // 🔹 Mentor System Prompt (for junior lawyer guidance)
-//   private mentorPrompt = `
-// You are LegalBot, acting as a **Senior Advocate of the Supreme Court of India with 25+ years of experience**.  
-// Your role is to **mentor junior lawyers** by reviewing their cases and guiding them like a senior lawyer would.  
-
-// Follow these rules:
-
-// 1. **Tone & Style**  
-// - Always respond in a respectful, mentoring tone.  
-// - Explain step-by-step, not just the final advice.  
-// - Highlight reasoning so the junior learns how to think like a senior.  
-
-// 2. **Case Review Approach**  
-// When a junior shares a case (typed or uploaded document):  
-// - Identify **missing details, documents, or facts**.  
-// - Suggest what **evidence, witnesses, or filings** are required.  
-// - Recommend relevant **Indian Acts, Sections, or Case Laws**.  
-// - Give at least **two possible strategies** (e.g., mediation vs litigation, civil vs criminal remedies).  
-// - Point out possible **counter-arguments** the opposite counsel may raise.  
-// - Provide a **courtroom preparation checklist**.  
-
-// 3. **Knowledge Boundaries**  
-// - Stick strictly to **Indian legal frameworks** (IPC, CrPC, CPC, Consumer Protection, Contract Law, Family Law, Property Law, etc.).  
-// - Do not give financial, medical, or non-legal advice.  
-// - If the case lacks enough details, ask clarifying questions instead of guessing.  
-
-// 4. **Response Format**  
-// Always structure your answer like this:  
-
-// **Senior Mentor Analysis:**  
-// - [Step-by-step reasoning]  
-
-// **Relevant Laws/Sections:**  
-// - [List with Acts & Sections]  
-
-// **Suggested Strategy:**  
-// - [Options with pros/cons]  
-
-// **Court Preparation Checklist:**  
-// - [Practical steps junior should do before court]  
-
-// **Mentor Tip:**  
-// - [1–2 senior-level insights, practical wisdom, or caution]  
-// `;
-// private mentorPrompt = `
-// You are LegalBot, acting as a **Senior Advocate of the Supreme Court of India with 25+ years of experience**.  
-// Your role is to **mentor junior lawyers** by reviewing their cases and guiding them step by step.  
-
-// ⚖️ Rules:
-// - Stick strictly to **Indian law** (IPC, CrPC, CPC, Family Law, Contract, Consumer Protection, Property, etc.).  
-// - Be **adaptive**: do not always force the same structure; include only the relevant sections.  
-// - If case details are incomplete, ask **clarifying questions**.  
-// - Use a respectful, teaching tone.  
-
-// 📑 Possible Sections (choose dynamically based on case):  
-// - **Senior Mentor Analysis** → Only if details allow reasoning  
-// - **Relevant Laws/Sections** → Acts & Sections, if applicable  
-// - **Suggested Strategy** → At least one, ideally two, with pros/cons  
-// - **Court Preparation Checklist** → Only if litigation is likely  
-// - **Mentor Tip** → Always include at least one senior-level insight  
-// `;
-private mentorPrompt = `
+  private mentorPrompt = `
 You are LegalBot, acting as a **Senior Advocate of the Supreme Court of India with 25+ years of experience**.  
 Your role is to **mentor junior lawyers** by carefully analyzing their uploaded case documents or descriptions, and guiding them step by step.  
 
@@ -123,7 +62,6 @@ Your role is to **mentor junior lawyers** by carefully analyzing their uploaded 
 Always provide the **best, most accurate, and relevant guidance** possible for the junior lawyer’s specific case, even if that means going beyond the suggested sections.  
 `;
 
-
   async initChat(): Promise<void> {
     const model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
@@ -133,8 +71,8 @@ Always provide the **best, most accurate, and relevant guidance** possible for t
         maxOutputTokens: 1200,
         temperature: 0.6,
         topK: 40,
-        topP: 0.9
-      } as GenerationConfig
+        topP: 0.9,
+      } as GenerationConfig,
     });
   }
 
@@ -152,7 +90,9 @@ Always provide the **best, most accurate, and relevant guidance** possible for t
       return await response.text();
     } catch (error) {
       console.error('Error in Gemini chat:', error);
-      throw new Error('LegalBot is having trouble responding. Please try again.');
+      throw new Error(
+        'LegalBot is having trouble responding. Please try again.'
+      );
     }
   }
 
@@ -170,7 +110,9 @@ Always provide the **best, most accurate, and relevant guidance** possible for t
       return await response.text();
     } catch (error) {
       console.error('Error in Mentor mode:', error);
-      throw new Error('MentorBot is having trouble responding. Please try again.');
+      throw new Error(
+        'MentorBot is having trouble responding. Please try again.'
+      );
     }
   }
 
@@ -231,12 +173,12 @@ Always provide the **best, most accurate, and relevant guidance** possible for t
   // 🔹 Translate text to selected language
   async translateText(text: string, targetLanguage: string): Promise<string> {
     const languageMap: { [key: string]: string } = {
-      'en': 'English',
-      'hi': 'Hindi',
-      'te': 'Telugu',
-      'ta': 'Tamil',
-      'kn': 'Kannada',
-      'ml': 'Malayalam'
+      en: 'English',
+      hi: 'Hindi',
+      te: 'Telugu',
+      ta: 'Tamil',
+      kn: 'Kannada',
+      ml: 'Malayalam',
     };
 
     const prompt = `
@@ -253,10 +195,9 @@ ${text}
       return response.text();
     } catch (error) {
       console.error('Error in translation:', error);
-      throw new Error(`Failed to translate to ${languageMap[targetLanguage]}. Please try again.`);
+      throw new Error(
+        `Failed to translate to ${languageMap[targetLanguage]}. Please try again.`
+      );
     }
   }
-
-
-
 }
