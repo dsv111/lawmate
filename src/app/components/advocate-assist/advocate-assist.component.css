@@ -112,3 +112,50 @@
   border-radius: 0.5rem;
   background-color: #f9fafb;
 }
+
+.chat-row {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+/* User on right */
+.chat-row.user {
+  justify-content: flex-end;
+}
+
+.user-bubble {
+  background: #e6f7ff;
+  color: black;
+  font-size: 14px;
+  border-radius: 16px 16px 0 16px;
+  padding: 10px 14px;
+  max-width: 60%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+/* Mentor on left */
+.chat-row.mentor {
+  justify-content: flex-start;
+}
+
+.mentor-bubble {
+  background: #f1f1f1;
+  font-size: 14px;
+  color: black;
+  border-radius: 16px 16px 16px 0;
+  padding: 10px 14px;
+  max-width: 70%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: left;
+}
+.white-input .mat-input-element {
+  background-color: #ffffff;
+  border-radius: 6px;   /* optional for nicer look */
+  padding: 6px 10px;    /* optional */
+}
+.user-icon {
+  height: 20px;
+  text-shadow: 1px 1px #dee2e6;
+}
+

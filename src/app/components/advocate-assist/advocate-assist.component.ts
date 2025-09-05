@@ -53,6 +53,7 @@ export class AdvocateAssistComponent implements OnInit {
 
   // UI loading message
   loadingMessage = '';
+followUpQuery = '';
 
   constructor(
     private geminiService: GeminiService,
@@ -322,4 +323,39 @@ Based on the following case details: ${this.userCaseDetails}, provide additional
     };
     return map[code] || 'English';
   }
+
+  followUpChats: { user: string; mentor: string }[] = [];
+isFollowUpLoading = false;
+
+async askFollowUp() {
+  const query = this.followUpQuery.trim();
+  if (!query) return;
+
+  this.isFollowUpLoading = true;
+  try {
+    // Build prompt with context of previous mentor response
+    const prompt = `
+      The junior lawyer already received the following mentor advice:
+      ${this.originalResponse}
+
+      Now the junior has this follow-up query:
+      ${query}
+
+      Please respond briefly and contextually, without repeating the entire advice.
+    `;
+
+    const reply = await this.geminiService.sendMentorMessage(prompt);
+
+    this.followUpChats.push({
+      user: query,
+      mentor: reply
+    });
+
+    this.followUpQuery = '';
+  } catch (err) {
+    this.snackBar.open('Failed to get mentor reply. Please try again.', 'Close', { duration: 5000 });
+  } finally {
+    this.isFollowUpLoading = false;
+  }
+}
 }
