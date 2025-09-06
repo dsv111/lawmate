@@ -10,6 +10,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { GeminiService } from '../../services/gemini.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-advocate-assist',
@@ -25,6 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
     NgxSkeletonLoaderModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatTooltipModule
   ],
   templateUrl: './advocate-assist.component.html',
   styleUrls: ['./advocate-assist.component.css'],
@@ -358,4 +360,39 @@ async askFollowUp() {
     this.isFollowUpLoading = false;
   }
 }
+
+startNewChat(): void {
+  // Reset all user inputs
+  this.userCaseDetails = '';
+  this.selectedFile = null;
+  this.followUpQuery = '';
+
+  // Reset response data
+  this.originalResponse = '';
+  this.originalExtraInfo = '';
+  this.botResponse = '';
+  this.extraInfo = '';
+  this.errorMessage = '';
+  this.loadingMessage = '';
+
+  // Reset UI flags
+  this.isLoading = false;
+  this.isExtraInfoLoading = false;
+  this.showExtraInfo = false;
+  this.followUpChats = [];
+  this.selectedLanguage = 'en'; // back to default
+
+  // Clear file input if any
+  const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+  if (fileInput) {
+    fileInput.value = '';
+  }
+
+  // Optional: reset AI chat context
+  this.geminiService.clearChatHistory?.();
+
+  this.snackBar.open('Started a new chat.', 'Close', { duration: 3000 });
+}
+
+
 }

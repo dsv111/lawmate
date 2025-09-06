@@ -15,11 +15,6 @@
               </div>
               <div class="options-container">
                 <mat-icon style="font-size: 16px;" (click)="toggleMenu(item)">more_vert</mat-icon>
-
-                <!-- <div class="options-menu" *ngIf="item.showMenu">
-                  <button mat-raised-button (click)="removeHistory(item)"> 
-                    <mat-icon (click)="toggleMenu(item)">delete</mat-icon>Remove</button>
-                </div> -->
                 <div class="options-menu" *ngIf="item.showMenu">
                   <button mat-raised-button class="remove-btn" (click)="removeHistory(item)">
                     <mat-icon>delete</mat-icon>
@@ -61,8 +56,7 @@
             <mat-icon>attach_file</mat-icon>
             Attach File (DOCX, TXT)
           </label>
-          <input type="file" id="fileInput" hidden (change)="onFileSelected($event)"
-            accept=".pdf,.doc,.docx,.txt,.rtf,image" />
+          <input type="file" id="fileInput" hidden (change)="onFileSelected($event)"/>
         </div>
 
         <div class="action-row">

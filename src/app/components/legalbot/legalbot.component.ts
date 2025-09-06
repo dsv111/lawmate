@@ -180,7 +180,7 @@ loggedUserDetails:any;
         extractedText = await this.extractTextFromPDF(file);
       } else if (
         fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-        fileType === "application/msword"
+        fileType === "application/msword" || fileType === "txt"
       ) {
         extractedText = await this.extractTextFromWord(file);
       } else if (fileType === "text/plain") {
