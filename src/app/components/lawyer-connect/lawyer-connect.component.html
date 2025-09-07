@@ -63,7 +63,7 @@
     <div class="lawyer-list flex flex-wrap gap-3">
       <div *ngFor="let l of lawyers"
            class="card p-3 border rounded shadow-sm cursor-pointer"
-           (click)="connect(l.name)"
+           (click)="connect(l)"
            matTooltip="Click to connect with {{ l.name }}">
         <strong>{{ l.name }}</strong><br>
         {{ l.specialization }}<br>
