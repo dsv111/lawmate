@@ -16,8 +16,7 @@ export class NavbarComponent {
   isMenuOpen = false;
 
   loggedUserType: string | null = null;
-    private authService = inject(AuthService);
-
+  private authService = inject(AuthService);
 
   isLoggedIn = this.authService.isLoggedIn;
   userType = this.authService.userType;
@@ -31,13 +30,13 @@ export class NavbarComponent {
       this.loggedUserType = user?.userType || null;
     }
   }
-toggleMenu() {  
-  this.isMenuOpen = !this.isMenuOpen;
-}
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
 
-closeMenu() {
-  this.isMenuOpen = false;
-}
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
   onHover() {
     this.showDropdown = true;
   }

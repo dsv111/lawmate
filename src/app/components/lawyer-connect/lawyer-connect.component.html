@@ -1,31 +1,96 @@
+<!-- Loader overlay -->
+<div *ngIf="loading" class="loader-overlay">
+  <mat-progress-spinner 
+    mode="indeterminate" 
+    diameter="60" 
+    color="primary">
+  </mat-progress-spinner>
+  <p>Sending request...</p>
+</div>
+
 <div class="lawyer-connect-container">
   <h2>Connect with a Lawyer</h2>
 
-  <mat-form-field appearance="outline" class="search-field">
-    <mat-label>Search lawyers</mat-label>
-    <input matInput placeholder="Name, location, or specialty" [(ngModel)]="searchQuery" (input)="filterLawyers()" />
-    <button mat-icon-button matSuffix>
-      <mat-icon>search</mat-icon>
-    </button>
-  </mat-form-field>
+  <!-- Toggle button -->
+  <button mat-stroked-button color="accent" (click)="toggleView()">
+    {{ showNearby ? 'Show All Lawyers' : 'Show Nearby Lawyers' }}
+  </button>
 
-  <div class="lawyer-list">
-    <mat-card *ngFor="let lawyer of filteredLawyers" class="lawyer-card">
-      <mat-card-header>
-        <mat-card-title>{{ lawyer.name }}</mat-card-title>
-        <mat-card-subtitle>{{ lawyer.specialty }} | {{ lawyer.location }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Rating: ⭐ {{ lawyer.rating }}</p>
-        <p>Status: <span [ngClass]="lawyer.available ? 'available' : 'unavailable'">
-          {{ lawyer.available ? 'Available' : 'Unavailable' }}
-        </span></p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="connect(lawyer.name)" [disabled]="!lawyer.available">
-          Connect
-        </button>
-      </mat-card-actions>
-    </mat-card>
+  <!-- 🔹 TEMPLATE 1: Previous Lawyer List -->
+  <ng-container *ngIf="!showNearby">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search lawyers</mat-label>
+      <input matInput placeholder="Name, location, or specialty" 
+             [(ngModel)]="searchQuery" (input)="filterLawyers()" />
+      <button mat-icon-button matSuffix>
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="lawyer-list">
+      <mat-card *ngFor="let lawyer of filteredLawyers" class="lawyer-card">
+        <mat-card-header>
+          <mat-card-title>{{ lawyer.name }}</mat-card-title>
+          <mat-card-subtitle>{{ lawyer.specialization }} | {{ lawyer.location }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Rating: ⭐ {{ lawyer.rating }}</p>
+          <p>Status: 
+            <span [ngClass]="lawyer.available ? 'available' : 'unavailable'">
+              {{ lawyer.available ? 'Available' : 'Unavailable' }}
+            </span>
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" 
+                  (click)="connect(lawyer)" 
+                  [disabled]="!lawyer.available">
+            Connect
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </ng-container>
+
+  <!-- 🔹 TEMPLATE 2: Nearby Lawyers with Map -->
+<ng-container *ngIf="showNearby">
+
+
+  <div class="panel mt-3 p-3 border rounded">
+    <h3>Nearby Lawyers</h3>
+    <div *ngIf="!lawyers.length">No lawyers available</div>
+
+    <div class="lawyer-list flex flex-wrap gap-3">
+      <div *ngFor="let l of lawyers"
+           class="card p-3 border rounded shadow-sm cursor-pointer"
+           (click)="connect(l.name)"
+           matTooltip="Click to connect with {{ l.name }}">
+        <strong>{{ l.name }}</strong><br>
+        {{ l.specialization }}<br>
+        {{ l.distanceKm }} km — ~{{ l.etaMinutes }} mins
+      </div>
+    </div>
+
+    <div *ngIf="nearest" class="nearest mt-3">
+      <h4>Closest: {{ nearest.name }}</h4>
+      <p>{{ nearest.distanceKm }} km — ~ {{ nearest.etaMinutes }} mins</p>
+    </div>
   </div>
+
+    <!-- Google Map -->
+  <google-map
+    height="400px"
+    width="100%"
+    [center]="center"
+    [zoom]="zoom">
+    <map-marker
+      *ngFor="let l of lawyers"
+      [position]="{lat: l.lat, lng: l.lng}"
+      [title]="l.name">
+    </map-marker>
+  </google-map>
+</ng-container>
+
+
+
 </div>

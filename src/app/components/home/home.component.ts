@@ -4,17 +4,30 @@ import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatButtonModule, MatCardModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatButtonModule,
+    MatCardModule,
+    MatSnackBarModule   // ✅ Only this, remove MatSnackBar
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
   isLoggedIn: any;
-  constructor(private authService: AuthService, private router: Router) {
+  userType: any;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar   // ✅ Correct place
+  ) {
     this.isLoggedIn = this.authService.isLoggedIn;
   }
 
@@ -31,8 +44,23 @@ export class HomeComponent {
       'advocate-mentor': '/advo-mentor',
     };
 
-    const path = routeMap[route];
+    this.userType = this.authService.userType;
 
+    if (route === 'advocate-mentor' && this.userType !== 'advocate') {
+      this.snackBar.open(
+        'Access denied: only advocates can access this feature.',
+        'Close',
+        {
+          duration: 3000,
+          panelClass: ['warning-toast'],
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        }
+      );
+      return;
+    }
+
+    const path = routeMap[route];
     if (path) {
       this.router.navigateByUrl(path);
     } else {

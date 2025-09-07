@@ -148,6 +148,11 @@ export class LoginComponent {
 
     users.push(signupData);
     localStorage.setItem('SignupDetails', JSON.stringify(users));
+localStorage.setItem('lawyers', JSON.stringify([
+  { id: 1, name: 'Adv. Ramesh', specialization: 'Criminal Law', lat: 17.385044, lng: 78.486671 },
+  { id: 2, name: 'Adv. Priya', specialization: 'Corporate Law', lat: 17.390000, lng: 78.490000 },
+  { id: 3, name: 'Adv. Kiran', specialization: 'Family Law', lat: 17.380000, lng: 78.480000 }
+]));
 
     this.snackBar.open('Signup successful!', 'Close', {
       duration: 3000,

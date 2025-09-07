@@ -20,7 +20,7 @@
       <a *ngIf="userType() == 'advocate'" routerLink="/advo-mentor" routerLinkActive="active-link" (click)="closeMenu()">Advocate Mentor</a>
       <a routerLink="/doc-generator" routerLinkActive="active-link" (click)="closeMenu()">Document-Generator</a>
       <!-- Show Lawyer-Connect only if NOT advocate -->
-      <a *ngIf="userType() == 'advocate'" routerLink="/lawyer-connect" routerLinkActive="active-link" (click)="closeMenu()">
+      <a routerLink="/lawyer-connect" routerLinkActive="active-link" (click)="closeMenu()">
         Lawyer-Connect
       </a>
 
