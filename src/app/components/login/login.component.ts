@@ -115,13 +115,12 @@ export class LoginComponent {
 
   onSignupSubmit() {
     if (this.signupForm.invalid) return;
-debugger;
     const signupData = this.signupForm.value;
   
     const newEmail = signupData.email.toLowerCase();
     let users: User[] = [];
 
-    const storedData = sessionStorage.getItem('SignupDetails');
+    const storedData = localStorage.getItem('SignupDetails');
     try {
       users = storedData ? JSON.parse(storedData) : [];
       if (!Array.isArray(users)) throw new Error('Invalid');
