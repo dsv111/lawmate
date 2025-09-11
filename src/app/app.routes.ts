@@ -7,6 +7,8 @@ import {LegalBotComponent} from './components/legalbot/legalbot.component'
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AdvocateAssistComponent } from './components/advocate-assist/advocate-assist.component';
+import { ContactusComponent } from './components/contactus/contactus.component';
+import { OurteamComponent } from './components/ourteam/ourteam.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
@@ -16,4 +18,6 @@ export const routes: Routes = [
   { path: 'lawyer-connect', component: LawyerConnectComponent },
   { path: 'signin', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'contactus', component: ContactusComponent },
+  { path: 'ourteam', component: OurteamComponent },
 ];

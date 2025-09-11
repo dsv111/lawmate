@@ -107,7 +107,7 @@ export class LawyerConnectComponent implements OnInit {
         name: 'Adv. Stephen Sai Krishna',
         email: 'srinivas.dasari2019@gmail.com',
         location: 'Hyderabad',
-        specialization: 'Family Law',
+        specialization: 'Immigration Law',
         rating: 4.7,
         available: false,
         lat: 17.385,
@@ -126,7 +126,7 @@ export class LawyerConnectComponent implements OnInit {
       },
       {
         id: 4,
-        name: 'Adv. William Vamsi',
+        name: 'Adv. Lawrence Lokesh',
         email: 'cnugaaru1234@gmail.com',
         location: 'Mumbai',
         specialization: 'Property Law',
@@ -137,11 +137,11 @@ export class LawyerConnectComponent implements OnInit {
       },
       {
         id: 5,
-        name: 'Adv. George Ganesh',
+        name: 'Adv. Surya N',
         email: 'dsv111@yahoo.com',
-        location: 'Goa',
-        specialization: 'Immigration Law',
-        rating: 4.4,
+        location: 'GogMattam',
+        specialization: 'Family Law',
+        rating: 4.9,
         available: true,
         lat: 15.2993,
         lng: 74.124,
@@ -150,10 +150,10 @@ export class LawyerConnectComponent implements OnInit {
         id: 6,
         name: 'Adv. Nelson Nani',
         email: 'sdasari729@gmail.com',
-        location: 'Rajahmundry',
+        location: 'Razole',
         specialization: 'Employment and Labor Law',
         rating: 4.3,
-        available: true,
+        available: false,
         lat: 17.0005,
         lng: 81.804,
       },
@@ -193,6 +193,7 @@ export class LawyerConnectComponent implements OnInit {
   }
 
   connect(lawyer: any): void {
+    debugger
     this.loading = true; // show loader
     const templateParams = {
       to_name: lawyer.name,
@@ -201,6 +202,7 @@ export class LawyerConnectComponent implements OnInit {
       name: this.loggedUserDetails.username,
       email: this.loggedUserDetails.email,
       mobileno: this.loggedUserDetails.mobileno,
+      message:'NA'
     };
 
     emailjs
@@ -212,12 +214,12 @@ export class LawyerConnectComponent implements OnInit {
       )
       .then(() => {
         this.loading = false; // hide loader
-        this.snackBar.open('Request sent successfully!', 'Close', { duration: 3000 });
+        this.snackBar.open('✅ Request sent successfully!', 'Close', { duration: 3000 });
       })
       .catch((error) => {
         this.loading = false; // hide loader
         console.error(error);
-        alert('Failed to send email');
+        this.snackBar.open('❌ Failed to send email');
       });
   }
 }

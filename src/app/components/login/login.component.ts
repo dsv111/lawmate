@@ -82,7 +82,7 @@ export class LoginComponent {
       users = JSON.parse(storedSignup);
       if (!Array.isArray(users)) throw new Error('Corrupted');
     } catch {
-      this.snackBar.open('Signup data is corrupted.', 'Close', {
+      this.snackBar.open('❌ Signup data is corrupted.', 'Close', {
         duration: 3000,
         panelClass: ['error-snackbar'],
       });
@@ -96,7 +96,7 @@ export class LoginComponent {
     );
 
     if (!user) {
-      this.snackBar.open('Invalid email or password', 'Close', {
+      this.snackBar.open('❌ Invalid email or password', 'Close', {
         duration: 3000,
         panelClass: ['error-snackbar'],
       });
@@ -105,7 +105,7 @@ export class LoginComponent {
 
     // ✅ Save and update reactive signal
     this.authService.setUser(user);
-    this.snackBar.open('Login successful!', 'Close', {
+    this.snackBar.open('✅ Login successful!', 'Close', {
       duration: 3000,
       panelClass: ['success-snackbar'],
     });
@@ -134,7 +134,7 @@ export class LoginComponent {
 
     if (emailExists) {
       this.snackBar.open(
-        'Email already registered! Please use a different email.',
+        '❌ Email already registered! Please use a different email.',
         'Close',
         {
           duration: 3000,
@@ -154,7 +154,7 @@ localStorage.setItem('lawyers', JSON.stringify([
   { id: 3, name: 'Adv. Kiran', specialization: 'Family Law', lat: 17.380000, lng: 78.480000 }
 ]));
 
-    this.snackBar.open('Signup successful!', 'Close', {
+    this.snackBar.open('✅ Signup successful!', 'Close', {
       duration: 3000,
       panelClass: ['success-toast'],
       horizontalPosition: 'center',

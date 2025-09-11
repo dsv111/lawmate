@@ -22,6 +22,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class HomeComponent {
   isLoggedIn: any;
   userType: any;
+  loggedUserDetails: any;
 
   constructor(
     private authService: AuthService,
@@ -29,6 +30,9 @@ export class HomeComponent {
     private snackBar: MatSnackBar   // ✅ Correct place
   ) {
     this.isLoggedIn = this.authService.isLoggedIn;
+    const userDetails = sessionStorage.getItem('loggedUserObject');
+    this.loggedUserDetails = userDetails ? JSON.parse(userDetails) : {};
+    console.log(this.loggedUserDetails);
   }
 
   routeRespectingPage(route: string): void {
@@ -44,11 +48,11 @@ export class HomeComponent {
       'advocate-mentor': '/advo-mentor',
     };
 
-    this.userType = this.authService.userType;
-
-    if (route === 'advocate-mentor' && this.userType !== 'advocate') {
+    this.userType = this.loggedUserDetails.userType;
+debugger;
+    if (route === 'advocate-mentor' && this.userType != 'advocate') {
       this.snackBar.open(
-        'Access denied: only advocates can access this feature.',
+        '❌ Access denied: only advocates can access this feature.',
         'Close',
         {
           duration: 3000,

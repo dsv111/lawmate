@@ -75,7 +75,7 @@ followUpQuery = '';
 
       if (!['docx', 'txt'].includes(fileExtension || '')) {
         this.snackBar.open(
-          'Invalid file type. Please upload a .docx or .txt file.',
+          '❌ Invalid file type. Please upload a .docx or .txt file.',
           'Close',
           {
             duration: 5000,
@@ -93,7 +93,7 @@ followUpQuery = '';
         );
       } catch (err) {
         this.snackBar.open(
-          'Failed to read the uploaded file. Please try again.',
+          '❌ Failed to read the uploaded file. Please try again.',
           'Close',
           { duration: 5000 }
         );
@@ -355,7 +355,7 @@ async askFollowUp() {
 
     this.followUpQuery = '';
   } catch (err) {
-    this.snackBar.open('Failed to get mentor reply. Please try again.', 'Close', { duration: 5000 });
+    this.snackBar.open('❌ Failed to get mentor reply. Please try again.', 'Close', { duration: 5000 });
   } finally {
     this.isFollowUpLoading = false;
   }
