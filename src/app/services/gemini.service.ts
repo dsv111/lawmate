@@ -122,7 +122,7 @@ Always provide the **best, most accurate, and relevant guidance** possible for t
 
   // 🔹 Generate document (if needed)
   async generateText(prompt: string): Promise<string> {
-    const model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return response.text();
@@ -188,7 +188,7 @@ Text:
 ${text}
 `;
 
-    const model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     try {
       const result = await model.generateContent(prompt);
       const response = await result.response;
