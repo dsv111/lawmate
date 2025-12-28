@@ -63,7 +63,7 @@ Always provide the **best, most accurate, and relevant guidance** possible for t
 `;
 
   async initChat(): Promise<void> {
-    const model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     this.chat = model.startChat({
       history: [],
